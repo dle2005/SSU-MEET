@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1038420430954",
+    "firebase_url": "https://ssu-meet.firebaseio.com",
+    "project_id": "ssu-meet",
+    "storage_bucket": "ssu-meet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038420430954:android:334589d727b6e78c12fa13",
+        "android_client_info": {
+          "package_name": "com.example.ssumeet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038420430954-9k6h83eu9u64dlf1scv8a3g0vl0au489.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ssumeet",
+            "certificate_hash": "cc71b9b11bac5b7be4669cd5fda9025767accad7"
+          }
+        },
+        {
+          "client_id": "1038420430954-je123mgpv7nqud4qef78hh9q1c8vc4l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8HZzlLagrx0xbSB8PFQELZ3vOKhjJpt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038420430954-je123mgpv7nqud4qef78hh9q1c8vc4l7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="deepPink">#F52887</color>
+    <color name="mistyRose">#FAAFBE</color>
+    <color name="pinkLemonade">#E4287C</color>
+    <color name="watermelonPink">#FC6C85</color>
+    <color name="brightNeonPink">#F433FF</color>
+    <color name="antiquewhite">#FAEBD7</color>
+</resources>

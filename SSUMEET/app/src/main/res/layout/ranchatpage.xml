@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/host"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mistyRose"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/watermelonPink"
+        android:elevation="4dp">
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="@color/deepPink"
+            android:background="?attr/actionModeCloseDrawable"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="랜 덤 채 팅"
+            android:textSize="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="매칭시작"/>
+
+    </androidx.appcompat.widget.Toolbar>
+</LinearLayout>
