@@ -1,5 +1,6 @@
 package com.example.ssumeet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,11 +33,21 @@ public class WritePost extends AppCompatActivity {
                     case R.id.insert_btn:
                         writePost();
                         break;
+                    case R.id.image_btn:
+                        startActivity(Gallery.class, 0, 0);
+                        break;
+                    case R.id.video_btn:
+                        startActivity(Gallery.class, 1, 0);
+                        break;
                 }
             }
         };
         Button insert_btn = (Button)findViewById(R.id.insert_btn);
         insert_btn.setOnClickListener(onClickListener);
+        Button image_btn = (Button)findViewById(R.id.image_btn);
+        image_btn.setOnClickListener(onClickListener);
+        Button video_btn = (Button)findViewById(R.id.video_btn);
+        video_btn.setOnClickListener(onClickListener);
     }
 
     private void writePost() {
@@ -68,5 +79,10 @@ public class WritePost extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+    private void startActivity(Class c, int media, int requestCode) {
+        Intent intent = new Intent(this, c);
+        intent.putExtra("media", media);
+        startActivityForResult(intent, requestCode);
     }
 }
