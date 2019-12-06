@@ -61,6 +61,21 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인증번호"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/checkNum"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"
         android:orientation="horizontal">
