@@ -130,6 +130,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RadioButton
+        android:id="@+id/chat_radioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="채팅 허용"/>
+
+        <RadioButton
+        android:id="@+id/ranchat_radioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:text="랜덤채팅 허용"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="30dp"
         android:layout_gravity="center">
         <Button
@@ -144,4 +165,5 @@
             android:layout_marginLeft="30dp"
             android:text="취소"/>
     </LinearLayout>
+
 </LinearLayout>
