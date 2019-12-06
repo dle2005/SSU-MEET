@@ -6,19 +6,27 @@ public class ProfileInfo {
     private String subject;
     private String interest;
     private String photoUrl;
+    private String chat_permission;
+    private String ranchat_permission;
 
-    public ProfileInfo(String name, String age, String subject, String interest) {
+    public ProfileInfo(String name, String age, String subject, String interest,
+                       String chat_permission, String ranchat_permission) {
         this.name = name;
         this.age = age;
         this.subject = subject;
         this.interest = interest;
+        this.chat_permission = chat_permission;
+        this.ranchat_permission = ranchat_permission;
     }
-    public ProfileInfo(String name, String age, String subject, String interest, String photoUrl) {
+    public ProfileInfo(String name, String age, String subject, String interest, String photoUrl,
+                       String chat_permission, String ranchat_permission) {
         this.name = name;
         this.age = age;
         this.subject = subject;
         this.interest = interest;
         this.photoUrl = photoUrl;
+        this.chat_permission = chat_permission;
+        this.ranchat_permission = ranchat_permission;
     }
 
     public String getName() { return this.name; }
@@ -35,5 +43,11 @@ public class ProfileInfo {
 
     public String getPhotoUrl() { return this.photoUrl; }
     public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
+
+    public String getChat_permission() { return this.chat_permission; }
+    public void setChat_permission(String chat_permission) { this.chat_permission = chat_permission; }
+
+    public String getRanchat_permission() { return this.ranchat_permission; }
+    public void setRanchat_permission(String ranchat_permission) { this.ranchat_permission = ranchat_permission; }
 
 }

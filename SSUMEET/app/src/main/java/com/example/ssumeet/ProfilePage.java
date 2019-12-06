@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,7 +34,8 @@ public class ProfilePage extends BasicActivity {
     FirebaseUser user;
     private String profilePath;
     private ImageView profile_image;
-
+    private String chat_permission;
+    private String ranchat_permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,12 @@ public class ProfilePage extends BasicActivity {
         final String age = ((EditText)findViewById(R.id.age)).getText().toString();
         final String subject = ((EditText)findViewById(R.id.subject)).getText().toString();
         final String interest = ((EditText)findViewById(R.id.interest)).getText().toString();
+        CheckBox chat_check = (CheckBox) findViewById(R.id.chat_check);
+        CheckBox ranchat_check = (CheckBox) findViewById(R.id.ranchat_check);
+        if(chat_check.isChecked()) { chat_permission = "true"; }
+        else { chat_permission = "false"; }
+        if(ranchat_check.isChecked()) { ranchat_permission = "true"; }
+        else { ranchat_permission = "false"; }
 
         if (name.length() > 0 && age.length() > 0 && subject.length() > 0 && interest.length() > 0) {
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -76,7 +84,7 @@ public class ProfilePage extends BasicActivity {
             user = FirebaseAuth.getInstance().getCurrentUser();
 
             if (profilePath == null) {
-                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest);
+                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest, chat_permission, ranchat_permission);
                 userInfoUpdate(profileInfo);
             } else {
                 try {
@@ -96,7 +104,7 @@ public class ProfilePage extends BasicActivity {
                             if (task.isSuccessful()) {
                                 Uri downloadUri = task.getResult();
 
-                                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest);
+                                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest, chat_permission, ranchat_permission);
                                 userInfoUpdate(profileInfo);
                             } else {
                                 startToast(ProfilePage.this, "회원정보를 보내는데 실패하였습니다.");
