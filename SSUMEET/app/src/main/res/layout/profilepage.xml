@@ -132,14 +132,14 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <RadioButton
-        android:id="@+id/chat_radioButton"
+        <CheckBox
+        android:id="@+id/chat_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="채팅 허용"/>
 
-        <RadioButton
-        android:id="@+id/ranchat_radioButton"
+        <CheckBox
+        android:id="@+id/ranchat_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
