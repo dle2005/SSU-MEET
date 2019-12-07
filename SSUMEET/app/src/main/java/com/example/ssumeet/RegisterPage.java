@@ -69,12 +69,6 @@ public class RegisterPage extends AppCompatActivity {
         srand = Integer.toString(arand);
         String emailAddress = ((EditText) findViewById(R.id.id)).getText().toString();
         emailAddress = emailAddress + "@ssu.ac.kr";
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("plain/Text");
-        email.putExtra(Intent.EXTRA_EMAIL, emailAddress);
-        email.putExtra(Intent.EXTRA_SUBJECT, "SSU MEET 이메일 인증");
-        email.putExtra(Intent.EXTRA_TEXT, "SSU MEET 본인확인 인증번호는"+srand+"입니다.");
-        startActivity(email);
     }
 
     private void register() {
