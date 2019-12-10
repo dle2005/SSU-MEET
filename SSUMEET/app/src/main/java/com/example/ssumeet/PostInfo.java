@@ -13,6 +13,8 @@ public class PostInfo {
     private Date createdAt;
     private String id;
 
+    public PostInfo() {};
+
 
     public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt){
         this.title = title;

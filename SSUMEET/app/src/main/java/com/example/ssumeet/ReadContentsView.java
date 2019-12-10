@@ -48,7 +48,7 @@ public class ReadContentsView extends LinearLayout {
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
         layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.post, this, true);
+        layoutInflater.inflate(R.layout.postpage, this, true);
     }
 
     public void setMoreIndex(int moreIndex){
