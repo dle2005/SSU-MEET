@@ -2,6 +2,7 @@ package com.example.ssumeet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
 
 public class RegisterPage extends AppCompatActivity {
     public FirebaseAuth mAuth;
@@ -51,6 +55,7 @@ public class RegisterPage extends AppCompatActivity {
         check_btn.setOnClickListener(onClickListener);
         Button register_btn = (Button) findViewById(R.id.register_btn);
         register_btn.setOnClickListener(onClickListener);
+
     }
 
     @Override
@@ -69,6 +74,21 @@ public class RegisterPage extends AppCompatActivity {
         srand = Integer.toString(arand);
         String emailAddress = ((EditText) findViewById(R.id.id)).getText().toString();
         emailAddress = emailAddress + "@ssu.ac.kr";
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .permitDiskReads()
+                .permitDiskWrites()
+                .permitNetwork().build());
+        try {
+            GMailSender gMailSender = new GMailSender("dle0129@gmail.com", "ehdrhs8615");
+            gMailSender.sendMail("SSU MEET 인증메일입니다.", srand, emailAddress);
+        } catch (SendFailedException e) {
+            Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+        } catch (MessagingException e) {
+            Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주십시오", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void register() {
