@@ -1,3 +1,4 @@
+/*
 package com.example.ssumeet;
 
 import android.content.Intent;
@@ -86,3 +87,4 @@ public class WritePost extends AppCompatActivity {
         startActivityForResult(intent, requestCode);
     }
 }
+*/

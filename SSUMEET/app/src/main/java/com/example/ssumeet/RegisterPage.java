@@ -1,7 +1,9 @@
 package com.example.ssumeet;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,14 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.ssumeet.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterPage extends AppCompatActivity {
     public FirebaseAuth mAuth;
+    SharedPreferences sharedPreferences;
     String srand;
 
     @Override
@@ -27,24 +33,8 @@ public class RegisterPage extends AppCompatActivity {
         setContentView(R.layout.registerpage);
         mAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-        Button.OnClickListener onClickListener = new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.back_btn:
-                        Intent intent1 = new Intent(getApplicationContext(), LoginPage.class);
-                        startActivity(intent1);
-                        break;
-                    case R.id.check_btn:
-                        check();
-                        break;
-                    case R.id.register_btn:
-                        register();
-                        break;
-                }
-            }
-        };
+        //setSupportActionBar(toolbar);
+
         Button back_btn = (Button) findViewById(R.id.back_btn);
         back_btn.setOnClickListener(onClickListener);
         Button check_btn = (Button) findViewById(R.id.check_btn);
@@ -52,6 +42,24 @@ public class RegisterPage extends AppCompatActivity {
         Button register_btn = (Button) findViewById(R.id.register_btn);
         register_btn.setOnClickListener(onClickListener);
     }
+
+    Button.OnClickListener onClickListener = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.back_btn:
+                    Intent intent1 = new Intent(getApplicationContext(), LoginPage.class);
+                    startActivity(intent1);
+                    break;
+                case R.id.check_btn:
+                    check();
+                    break;
+                case R.id.register_btn:
+                    register();
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onStart() {
@@ -80,6 +88,7 @@ public class RegisterPage extends AppCompatActivity {
     private void register() {
         String email = ((EditText)findViewById(R.id.id)).getText().toString();
         email = email + "@ssu.ac.kr";
+        final String id = email;
         String pw = ((EditText)findViewById(R.id.pw)).getText().toString();
         String pwCheck = ((EditText)findViewById(R.id.pwCheck)).getText().toString();
         String checkNum = ((EditText)findViewById(R.id.checkNum)).getText().toString();
@@ -95,8 +104,27 @@ public class RegisterPage extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                startToast("회원가입에 성공하였습니다.");
+                                sharedPreferences.edit().putString("user_id", id).commit();
+                                final String uid = FirebaseAuth.getInstance().getUid();
+
+                                UserModel userModel = new UserModel();
+                                userModel.setUid(uid);
+                                userModel.setUserid(id);
+                                userModel.setName(extractIDFromEmail(id));
+                                userModel.setStatusMsg("...");
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("users").document(uid).set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            startToast("회원가입에 성공하였습니다.");
+                                            Intent intent = new Intent(RegisterPage.this, MainPage.class);
+                                            startActivity(intent);
+                                            finish();
+                                            Log.d(String.valueOf(R.string.app_name), "DocumentSnapshot added with ID: " + uid);
+                                        }
+                                });
+
                             } else {
                                 if (task.getException() != null) {
                                     startToast(task.getException().toString());
@@ -105,5 +133,10 @@ public class RegisterPage extends AppCompatActivity {
                         }
                     });
         }
-        }
+    }
+
+    String extractIDFromEmail(String email){
+        String[] parts = email.split("@");
+        return parts[0];
+    }
 }
