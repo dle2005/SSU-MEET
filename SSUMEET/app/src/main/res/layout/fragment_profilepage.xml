@@ -99,7 +99,7 @@
             android:textColor="@color/deepPink"
             android:textSize="20dp"/>
         <EditText
-            android:id="@+id/subject"
+            android:id="@+id/major"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -120,6 +120,27 @@
             android:textSize="20dp"/>
         <EditText
             android:id="@+id/interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="상태 메세지"
+            android:textColor="@color/deepPink"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/status_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -159,11 +180,13 @@
             android:text="저장"
             android:id="@+id/save_btn"
             android:layout_gravity="center"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="취소"/>
+            android:text="비밀번호 변경"
+            android:id="@+id/changePW_btn"/>
     </LinearLayout>
 
 </LinearLayout>
