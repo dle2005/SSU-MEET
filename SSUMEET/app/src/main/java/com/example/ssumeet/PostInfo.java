@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WritePostInfo {
+public class PostInfo {
     private String title;
     private ArrayList<String> contents;
     private ArrayList<String> formats;
@@ -14,7 +14,7 @@ public class WritePostInfo {
     private String id;
 
 
-    public WritePostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt){
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt){
         this.title = title;
         this.contents = contents;
         this.formats = formats;

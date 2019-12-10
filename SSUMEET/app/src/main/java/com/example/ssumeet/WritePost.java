@@ -1,16 +1,12 @@
 package com.example.ssumeet;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,11 +27,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.example.ssumeet.ContentsItemView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,7 +45,7 @@ public class WritePost extends AppCompatActivity {
     private LinearLayout parent;
     private StorageReference storageRef;
     private ArrayList<String> pathList = new ArrayList<>();
-    private WritePostInfo writePostInfo;
+    private PostInfo postInfo;
     private RelativeLayout loaderLayout;
     private EditText contentsEditText;
     private EditText titleEditText;
@@ -99,7 +96,7 @@ public class WritePost extends AppCompatActivity {
                         final View selectedView = (View) selectedImageVIew.getParent();
                         String path = pathList.get(parent.indexOfChild(selectedView) - 1);
                         if(isStorageUrl(path)){
-                            StorageReference desertRef = storageRef.child("posts/" + writePostInfo.getId() + "/" + storageUrlToName(path));
+                            StorageReference desertRef = storageRef.child("posts/" + postInfo.getId() + "/" + storageUrlToName(path));
                             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -147,7 +144,7 @@ public class WritePost extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        writePostInfo = (WritePostInfo) getIntent().getSerializableExtra("postInfo");
+        postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");
         postInit();
     }
 
@@ -161,8 +158,8 @@ public class WritePost extends AppCompatActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-            final DocumentReference documentReference = writePostInfo == null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(writePostInfo.getId());
-            final Date date = writePostInfo == null ? new Date() : writePostInfo.getCreatedAt();
+            final DocumentReference documentReference = postInfo == null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(postInfo.getId());
+            final Date date = postInfo == null ? new Date() : postInfo.getCreatedAt();
             for (int i = 0; i < parent.getChildCount(); i++) {
                 LinearLayout linearLayout = (LinearLayout) parent.getChildAt(i);
                 for (int ii = 0; ii < linearLayout.getChildCount(); ii++) {
@@ -204,8 +201,8 @@ public class WritePost extends AppCompatActivity {
                                             successCount--;
                                             contentsList.set(index, uri.toString());
                                             if (successCount == 0) {
-                                                WritePostInfo writePostInfo = new WritePostInfo(title, contentsList, formatList, user.getUid(), date);
-                                                uploader(documentReference, writePostInfo);
+                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
+                                                uploader(documentReference, postInfo);
                                             }
                                         }
                                     });
@@ -219,7 +216,7 @@ public class WritePost extends AppCompatActivity {
                 }
             }
             if (successCount == 0) {
-                uploader(documentReference, new WritePostInfo(title, contentsList, formatList, user.getUid(), date));
+                uploader(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
             }
         } else {
             startToast(WritePost.this, "제목을 입력해주세요.");
@@ -235,8 +232,8 @@ public class WritePost extends AppCompatActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-            final DocumentReference documentReference = writePostInfo == null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(postInfo.getId());
-            final Date date = writePostInfo == null ? new Date() : writePostInfo.getCreatedAt();
+            final DocumentReference documentReference = postInfo == null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(postInfo.getId());
+            final Date date = postInfo == null ? new Date() : postInfo.getCreatedAt();
             for (int i = 0; i < parent.getChildCount(); i++) {
                 LinearLayout linearLayout = (LinearLayout) parent.getChildAt(i);
                 for (int ii = 0; ii < linearLayout.getChildCount(); ii++) {
@@ -278,8 +275,8 @@ public class WritePost extends AppCompatActivity {
                                             successCount--;
                                             contentsList.set(index, uri.toString());
                                             if (successCount == 0) {
-                                                WritePostInfo writePostInfo = new WritePostInfo(title, contentsList, formatList, user.getUid(), date);
-                                                uploader(documentReference, writePostInfo);
+                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
+                                                uploader(documentReference, postInfo);
                                             }
                                         }
                                     });
@@ -293,21 +290,20 @@ public class WritePost extends AppCompatActivity {
                 }
             }
             if (successCount == 0) {
-                uploader(documentReference, new WritePostInfo(title, contentsList, formatList, user.getUid(), date));
+                uploader(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
             }
         } else {
             startToast(WritePost.this, "제목을 입력해주세요.");
         }
     }
-    private void uploader(DocumentReference documentReference, final WritePostInfo writePostInfo) {
-        documentReference.set(writePostInfo.getPostInfo())
+    private void uploader(DocumentReference documentReference, final PostInfo postInfo) {
+        documentReference.set(postInfo.getPostInfo())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
                         loaderLayout.setVisibility(View.GONE);
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra("postinfo", writePostInfo);
+                        resultIntent.putExtra("postInfo", (Serializable) postInfo);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     }
@@ -315,16 +311,15 @@ public class WritePost extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
                         loaderLayout.setVisibility(View.GONE);
                     }
                 });
     }
 
     private void postInit() {
-        if (writePostInfo != null) {
-            titleEditText.setText(writePostInfo.getTitle());
-            ArrayList<String> contentsList = writePostInfo.getContents();
+        if (postInfo != null) {
+            titleEditText.setText(postInfo.getTitle());
+            ArrayList<String> contentsList = postInfo.getContents();
             for (int i = 0; i < contentsList.size(); i++) {
                 String contents = contentsList.get(i);
                 if (isStorageUrl(contents)) {
@@ -353,6 +348,23 @@ public class WritePost extends AppCompatActivity {
                 }
             }
         }
+    }
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus) {
+                selectedEditText = (EditText) v;
+            }
+        }
+    };
+    public static boolean isImageFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("image");
+    }
+
+    public static boolean isVideoFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("video");
     }
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
