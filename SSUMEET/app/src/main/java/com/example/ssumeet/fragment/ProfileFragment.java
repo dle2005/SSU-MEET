@@ -21,10 +21,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
-import com.example.ssumeet.UserPWActivity;
 import com.example.ssumeet.common.Util9;
-import com.example.ssumeet.model.UserModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,32 +33,34 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.ByteArrayOutputStream;
 
-public class UserFragment extends Fragment {
+public class ProfileFragment extends Fragment {
     private static final int PICK_FROM_ALBUM = 1;
     private ImageView user_photo;
-    private EditText user_id;
     private EditText user_name;
+    private EditText user_age;
+    private EditText user_subject;
+    private EditText user_interest;
     private EditText user_msg;
 
-    private UserModel userModel;
+    private ProfileModel ProfileModel;
     private Uri userPhotoUri;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.profilefragment, container, false);
 
-        user_id = view.findViewById(R.id.user_id);
-        user_id.setEnabled(false);
-        user_name = view.findViewById(R.id.user_name);
-        user_msg = view.findViewById(R.id.status_msg);
-        user_photo = view.findViewById(R.id.user_photo);
-        user_photo.setOnClickListener(userPhotoIVClickListener);
+        user_name = view.findViewById(R.id.name);
+        user_msg = view.findViewById(R.id.status);
+        user_age = view.findViewById(R.id.age);
+        user_subject = view.findViewById(R.id.subject);
+        user_interest = view.findViewById(R.id.interest);
+        user_photo = view.findViewById(R.id.profile_image);
 
-        Button saveBtn = view.findViewById(R.id.saveBtn);
+        Button saveBtn = view.findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(saveBtnClickListener);
-        Button changePWBtn = view.findViewById(R.id.changePWBtn);
-        changePWBtn.setOnClickListener(changePWBtnClickListener);
+        Button changeImage = view.findViewById(R.id.gallery_btn);
+        changeImage.setOnClickListener(changeImageBtnClickListener);
 
         getUserInfoFromServer();
         return view;
@@ -72,26 +73,20 @@ public class UserFragment extends Fragment {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                userModel = documentSnapshot.toObject(UserModel.class);
-                user_id.setText(userModel.getUserid());
-                user_name.setText(userModel.getName());
-                user_msg.setText(userModel.getStatusMsg());
-                if (userModel.getPhotoUrl()!= null && !"".equals(userModel.getPhotoUrl())) {
+                ProfileModel = documentSnapshot.toObject(ProfileModel.class);
+                user_name.setText(ProfileModel.getName());
+                user_age.setText(ProfileModel.getAge());
+                user_subject.setText(ProfileModel.getSubject());
+                user_interest.setText(ProfileModel.getInterest());
+                user_msg.setText(ProfileModel.getStatusMsg());
+                if (ProfileModel.getPhotoUrl()!= null && !"".equals(ProfileModel.getPhotoUrl())) {
                     Glide.with(getActivity())
-                            .load(FirebaseStorage.getInstance().getReference("userPhoto/"+userModel.getPhotoUrl()))
+                            .load(FirebaseStorage.getInstance().getReference("userPhoto/"+ ProfileModel.getPhotoUrl()))
                             .into(user_photo);
                 }
             }
         });
     }
-
-    Button.OnClickListener userPhotoIVClickListener = new View.OnClickListener() {
-        public void onClick(final View view) {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-            startActivityForResult(intent, PICK_FROM_ALBUM);
-        }
-    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -104,18 +99,22 @@ public class UserFragment extends Fragment {
     Button.OnClickListener saveBtnClickListener = new View.OnClickListener() {
         public void onClick(final View view) {
             if (!validateForm()) return;
-            userModel.setName(user_name.getText().toString());
-            userModel.setStatusMsg(user_msg.getText().toString());
+            ProfileModel.setName(user_name.getText().toString());
+            ProfileModel.setAge(user_age.getText().toString());
+            ProfileModel.setSubject(user_subject.getText().toString());
+            ProfileModel.setInterest(user_interest.getText().toString());
+            ProfileModel.setStatusMsg(user_msg.getText().toString());
+
 
             final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             if (userPhotoUri!=null) {
-                userModel.setPhotoUrl( uid );
+                ProfileModel.setPhotoUrl( uid );
             }
 
             db.collection("users").document(uid)
-                    .set(userModel)
+                    .set(ProfileModel)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -143,11 +142,14 @@ public class UserFragment extends Fragment {
         }
     };
 
-    Button.OnClickListener changePWBtnClickListener = new View.OnClickListener() {
+    Button.OnClickListener changeImageBtnClickListener = new View.OnClickListener() {
         public void onClick(final View view) {
-            startActivity(new Intent(getActivity(), UserPWActivity.class));
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            startActivityForResult(intent, PICK_FROM_ALBUM);
         }
     };
+
 
     private boolean validateForm() {
         boolean valid = true;

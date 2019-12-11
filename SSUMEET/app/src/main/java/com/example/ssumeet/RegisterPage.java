@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.ssumeet.model.UserModel;
+import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -107,14 +107,14 @@ public class RegisterPage extends AppCompatActivity {
                                 sharedPreferences.edit().putString("user_id", id).commit();
                                 final String uid = FirebaseAuth.getInstance().getUid();
 
-                                UserModel userModel = new UserModel();
-                                userModel.setUid(uid);
-                                userModel.setUserid(id);
-                                userModel.setName(extractIDFromEmail(id));
-                                userModel.setStatusMsg("...");
+                                ProfileModel profileModel = new ProfileModel();
+                                profileModel.setUid(uid);
+                                profileModel.setUserid(id);
+                                profileModel.setName(extractIDFromEmail(id));
+                                profileModel.setStatusMsg("...");
 
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                db.collection("users").document(uid).set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                db.collection("users").document(uid).set(profileModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             startToast("회원가입에 성공하였습니다.");

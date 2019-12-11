@@ -20,7 +20,8 @@
         <activity android:name=".ResetPwPage" />
         <activity android:name=".MainPage" />
         <activity android:name=".RegisterPage" />
-        <activity android:name=".LoginPage">
+        <activity android:name=".LoginPage"/>
+        <activity android:name=".StartingPage" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

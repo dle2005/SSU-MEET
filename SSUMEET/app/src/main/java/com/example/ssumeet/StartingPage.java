@@ -21,6 +21,10 @@ public class StartingPage extends AppCompatActivity {
         setContentView(R.layout.activity_starting_page);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        /*Intent mainIntent = new Intent(StartingPage.this, LoginPage.class);
+        StartingPage.this.startActivity(mainIntent);*/
+
+
         //FirebaseAuth.getInstance().signOut();
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()

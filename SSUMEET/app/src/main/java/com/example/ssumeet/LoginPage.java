@@ -1,6 +1,8 @@
 package com.example.ssumeet;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +20,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginPage extends AppCompatActivity {
+
+    private EditText user_id;
+
+    SharedPreferences sharedPreferences;
+
     public FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginpage);
         mAuth = FirebaseAuth.getInstance();
+
+        user_id = findViewById(R.id.id);
 
         Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
@@ -49,6 +58,12 @@ public class LoginPage extends AppCompatActivity {
         register_btn.setOnClickListener(onClickListener);
         TextView resetPw_btn = (TextView)findViewById(R.id.resetPw_btn);
         resetPw_btn.setOnClickListener(onClickListener);
+
+        sharedPreferences = getSharedPreferences("gujc", Activity.MODE_PRIVATE);
+        String id = sharedPreferences.getString("user_id" + "@ssu.ac.kr", "");
+        if (!"".equals(id)) {
+            user_id.setText(id);
+        }
     }
     @Override
     public void onStart() {
@@ -73,6 +88,7 @@ public class LoginPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            sharedPreferences.edit().putString("user_id", user_id.getText().toString() + "@ssu.ac.kr").commit();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startToast("로그인에 성공하였습니다.");
                             Intent intent = new Intent(getApplicationContext(), MainPage.class);

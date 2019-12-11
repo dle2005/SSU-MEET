@@ -18,9 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
 import com.example.ssumeet.chat.SelectUserActivity;
-import com.example.ssumeet.model.UserModel;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -30,15 +30,15 @@ import java.util.Map;
 
 public class UserListInRoomFragment extends Fragment {
     private String roomID;
-    private List<UserModel> userModels;
+    private List<ProfileModel> userModels;
     private RecyclerView recyclerView;
 
     public UserListInRoomFragment() {
     }
 
-    public static final UserListInRoomFragment getInstance(String roomID, Map<String, UserModel> userModels) {
-        List<UserModel> users = new ArrayList();
-        for( Map.Entry<String, UserModel> elem : userModels.entrySet() ){
+    public static final UserListInRoomFragment getInstance(String roomID, Map<String, ProfileModel> userModels) {
+        List<ProfileModel> users = new ArrayList();
+        for( Map.Entry<String, ProfileModel> elem : userModels.entrySet() ){
             users.add(elem.getValue());
         }
 
@@ -75,7 +75,7 @@ public class UserListInRoomFragment extends Fragment {
         return view;
     }
 
-    public void setUserList(List<UserModel> users) {
+    public void setUserList(List<ProfileModel> users) {
         userModels = users;
     }
 
@@ -96,7 +96,7 @@ public class UserListInRoomFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            final UserModel user = userModels.get(position);
+            final ProfileModel user = userModels.get(position);
             CustomViewHolder customViewHolder = (CustomViewHolder) holder;
             customViewHolder.user_name.setText(user.getName());
             //customViewHolder.user_msg.setText(user.getStatusMsg());

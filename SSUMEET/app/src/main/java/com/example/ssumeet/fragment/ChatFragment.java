@@ -38,12 +38,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
 import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ChatModel;
 import com.example.ssumeet.model.Message;
 import com.example.ssumeet.model.NotificationModel;
-import com.example.ssumeet.model.UserModel;
 import com.example.ssumeet.photoview.ViewPagerActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -103,7 +103,7 @@ public class ChatFragment extends Fragment {
     private String roomID;
     private String myUid;
     private String toUid;
-    private Map<String, UserModel> userList = new HashMap<>();
+    private Map<String, ProfileModel> userList = new HashMap<>();
 
     private ListenerRegistration listenerRegistration;
     private FirebaseFirestore firestore=null;
@@ -217,8 +217,8 @@ public class ChatFragment extends Fragment {
         firestore.collection("users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserModel userModel = documentSnapshot.toObject(UserModel.class);
-                userList.put(userModel.getUid(), userModel);
+                ProfileModel ProfileModel = documentSnapshot.toObject(ProfileModel.class);
+                userList.put(ProfileModel.getUid(), ProfileModel);
                 if (roomID != null & userCount == userList.size()) {
                     mAdapter = new RecyclerViewAdapter();
                     recyclerView.setAdapter(mAdapter);
@@ -302,7 +302,7 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-    public Map<String, UserModel> getUserList() {
+    public Map<String, ProfileModel> getUserList() {
         return userList;
     }
 
@@ -380,7 +380,7 @@ public class ChatFragment extends Fragment {
         notificationModel.data.title = userList.get(myUid).getName();
         notificationModel.data.body = msg_input.getText().toString();
 
-        for ( Map.Entry<String, UserModel> elem : userList.entrySet() ){
+        for ( Map.Entry<String, ProfileModel> elem : userList.entrySet() ){
             if (myUid.equals(elem.getValue().getUid())) continue;
             notificationModel.to = elem.getValue().getToken();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"), gson.toJson(notificationModel));
@@ -631,16 +631,16 @@ public class ChatFragment extends Fragment {
             }
 
             if (! myUid.equals(message.getUid())) {
-                UserModel userModel = userList.get(message.getUid());
-                messageViewHolder.msg_name.setText(userModel.getName());
+                ProfileModel profileModel = userList.get(message.getUid());
+                messageViewHolder.msg_name.setText(profileModel.getName());
 
-                if (userModel.getPhotoUrl()==null) {
+                if (profileModel.getPhotoUrl()==null) {
                     Glide.with(getContext()).load(R.drawable.user)
                             .apply(requestOptions)
                             .into(messageViewHolder.user_photo);
                 } else{
                     Glide.with(getContext())
-                            .load(storageReference.child("userPhoto/"+userModel.getPhotoUrl()))
+                            .load(storageReference.child("userPhoto/"+ profileModel.getPhotoUrl()))
                             .apply(requestOptions)
                             .into(messageViewHolder.user_photo);
                 }

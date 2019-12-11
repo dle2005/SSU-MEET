@@ -20,10 +20,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
 import com.example.ssumeet.common.FirestoreAdapter;
 import com.example.ssumeet.common.Util9;
-import com.example.ssumeet.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -148,23 +148,23 @@ public class SelectUserActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull CustomViewHolder viewHolder, int position) {
             DocumentSnapshot documentSnapshot = getSnapshot(position);
-            final UserModel userModel = documentSnapshot.toObject(UserModel.class);
+            final ProfileModel profileModel = documentSnapshot.toObject(ProfileModel.class);
 
-            if (myUid.equals(userModel.getUid())) {
+            if (myUid.equals(profileModel.getUid())) {
                 viewHolder.itemView.setVisibility(View.INVISIBLE);
                 viewHolder.itemView.getLayoutParams().height = 0;
                 return;
             }
 
-            viewHolder.user_name.setText(userModel.getName());
+            viewHolder.user_name.setText(profileModel.getName());
 
-            if (userModel.getPhotoUrl()==null) {
+            if (profileModel.getPhotoUrl()==null) {
                 Glide.with(getApplicationContext()).load(R.drawable.user)
                         .apply(requestOptions)
                         .into(viewHolder.user_photo);
             } else{
                 Glide.with(getApplicationContext())
-                        .load(storageReference.child("userPhoto/"+userModel.getPhotoUrl()))
+                        .load(storageReference.child("userPhoto/"+ profileModel.getPhotoUrl()))
                         .apply(requestOptions)
                         .into(viewHolder.user_photo);
             }
@@ -173,9 +173,9 @@ public class SelectUserActivity extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        selectedUsers.put(userModel.getUid(), userModel.getName());
+                        selectedUsers.put(profileModel.getUid(), profileModel.getName());
                     } else {
-                        selectedUsers.remove(userModel.getUid());
+                        selectedUsers.remove(profileModel.getUid());
                     }
                 }
             });
