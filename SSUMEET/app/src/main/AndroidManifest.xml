@@ -14,7 +14,6 @@
         <activity android:name=".Post"></activity>
         <activity android:name=".WritePost" />
         <activity android:name=".Gallery" />
-        <activity android:name=".fragment.ProfilePageFragment" />
         <activity android:name=".ResetPwPage" />
         <activity
             android:name=".MainPage"
@@ -30,21 +29,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SplashActivity"
-            android:label="@string/app_name"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity
             android:name=".chat.ChatActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".chat.SelectUserActivity" />
@@ -52,6 +36,15 @@
         <activity
             android:name=".photoview.ViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StartingPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <service android:name=".common.MyFirebaseMessagingService">
             <intent-filter>
