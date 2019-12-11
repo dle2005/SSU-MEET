@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,8 @@ import javax.mail.SendFailedException;
 public class RegisterPage extends AppCompatActivity {
     public FirebaseAuth mAuth;
     String srand;
-
+    String pw;
+    String pwCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,15 @@ public class RegisterPage extends AppCompatActivity {
         check_btn.setOnClickListener(onClickListener);
         Button register_btn = (Button) findViewById(R.id.register_btn);
         register_btn.setOnClickListener(onClickListener);
+
+        ImageView x_img = findViewById(R.id.x_img);
+        ImageView check_img = findViewById(R.id.check_img);
+        pw = ((EditText)findViewById(R.id.pw)).getText().toString();
+        pwCheck = ((EditText)findViewById(R.id.pwCheck)).getText().toString();
+        if(pw.equals(pwCheck)) {
+            x_img.setVisibility(View.INVISIBLE);
+            check_img.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -94,14 +105,18 @@ public class RegisterPage extends AppCompatActivity {
     private void register() {
         String email = ((EditText)findViewById(R.id.id)).getText().toString();
         email = email + "@ssu.ac.kr";
-        String pw = ((EditText)findViewById(R.id.pw)).getText().toString();
-        String pwCheck = ((EditText)findViewById(R.id.pwCheck)).getText().toString();
         String checkNum = ((EditText)findViewById(R.id.checkNum)).getText().toString();
         if(!pw.equals(pwCheck)) {
             startToast("비밀번호가 일치하지 않습니다.");
         }
         else if(!checkNum.equals(srand)){
             startToast("인증번호가 일치하지 않습니다.");
+        }
+        else if(email.length() == 0) {
+            startToast("이메일을 입력해주세요.");
+        }
+        else if(pw.length() == 0) {
+            startToast("비밀번호를 입력해주세요.");
         }
         else {
             mAuth.createUserWithEmailAndPassword(email, pw)
@@ -111,6 +126,7 @@ public class RegisterPage extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 startToast("회원가입에 성공하였습니다.");
+                                finish();
                             } else {
                                 if (task.getException() != null) {
                                     startToast(task.getException().toString());
