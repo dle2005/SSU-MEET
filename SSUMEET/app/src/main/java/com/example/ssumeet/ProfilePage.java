@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -62,6 +64,56 @@ public class ProfilePage extends BasicActivity {
         Button gallery_btn = (Button) findViewById(R.id.gallery_btn);
         gallery_btn.setOnClickListener(onClickListener);
         profile_image = findViewById(R.id.profile_image);
+
+        final EditText name_et = (EditText)findViewById(R.id.name);
+        final EditText age_et = (EditText)findViewById(R.id.age);
+        final EditText subject_et = (EditText)findViewById(R.id.subject);
+        final EditText interest_et = (EditText)findViewById(R.id.interest);
+        final ImageView pthotoUrl_iv = (ImageView)findViewById(R.id.profile_image);
+        final CheckBox chat_cb = (CheckBox)findViewById(R.id.chat_check);
+        final CheckBox ranchat_cb = (CheckBox)findViewById(R.id.ranchat_check);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = getIntent();
+        String attach = intent.getStringExtra("Attach");
+        if(!attach.equals("first_time")) {
+            DocumentReference docRef = db.collection("users").document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String name = task.getResult().getData().get("name").toString();
+                            name_et.setText(name);
+                            String age = task.getResult().getData().get("age").toString();
+                            age_et.setText(age);
+                            String subject = task.getResult().getData().get("subject").toString();
+                            subject_et.setText(subject);
+                            String interest = task.getResult().getData().get("interest").toString();
+                            interest_et.setText(interest);
+                            String photoUrl = task.getResult().getData().get("photoUrl").toString();
+                            String chat_permission = task.getResult().getData().get("chat_permission").toString();
+                            if(chat_permission.equals("true")) {
+                                chat_cb.setChecked(true);
+                            } else {
+                                chat_cb.setChecked(false);
+                            }
+                            String ranchat_permission = task.getResult().getData().get("ranchat_permission").toString();
+                            if(ranchat_permission.equals("true")) {
+                                ranchat_cb.setChecked(true);
+                            } else {
+                                ranchat_cb.setChecked(false);
+                            }
+                        } else {
+                        }
+                    } else {
+                    }
+                }
+            });
+
+        }
     }
 
     private void profileUpdate() {
