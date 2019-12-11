@@ -59,7 +59,7 @@ public class LoginPage extends AppCompatActivity {
         TextView resetPw_btn = (TextView)findViewById(R.id.resetPw_btn);
         resetPw_btn.setOnClickListener(onClickListener);
 
-        sharedPreferences = getSharedPreferences("gujc", Activity.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("ssumeet", Activity.MODE_PRIVATE);
         String id = sharedPreferences.getString("user_id" + "@ssu.ac.kr", "");
         if (!"".equals(id)) {
             user_id.setText(id);
@@ -71,9 +71,11 @@ public class LoginPage extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
     }
+
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
     private void signIN() {
         String email = ((EditText)findViewById(R.id.id)).getText().toString();
         if(email.length()!=8) {

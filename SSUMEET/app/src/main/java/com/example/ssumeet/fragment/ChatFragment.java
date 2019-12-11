@@ -91,7 +91,7 @@ public class ChatFragment extends Fragment {
 
     private static final int PICK_FROM_ALBUM = 1;
     private static final int PICK_FROM_FILE = 2;
-    private static String rootPath = Util9.getRootPath()+"/DirectTalk9/";
+    private static String rootPath = Util9.getRootPath()+"/ssumeet/";
 
     private Button sendBtn;
     private EditText msg_input;
