@@ -140,7 +140,7 @@ public class MainPage extends AppCompatActivity {
             switch (position) {
                 case 0: return new UserListFragment();
                 case 1: return new ChatRoomFragment();
-                default: return new ProfileFragment();//UserFragment();
+                default: return new ProfileFragment();
             }
         }
 
