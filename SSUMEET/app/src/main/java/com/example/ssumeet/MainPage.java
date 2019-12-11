@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
+import com.example.ssumeet.fragment.PostFragment;
 import com.example.ssumeet.fragment.ProfileFragment;
 import com.example.ssumeet.fragment.UserListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -140,13 +141,14 @@ public class MainPage extends AppCompatActivity {
             switch (position) {
                 case 0: return new UserListFragment();
                 case 1: return new ChatRoomFragment();
+                case 2: return new PostFragment();
                 default: return new ProfileFragment();//UserFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 }
