@@ -4,8 +4,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -37,19 +36,19 @@
                 android:id="@+id/tabItem1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/friendicon" />
+                android:icon="@drawable/account" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/chaticon" />
+                android:icon="@android:drawable/sym_action_chat" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/profile" />
+                android:icon="@drawable/setting" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -62,6 +61,14 @@
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/makeRoomBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"
+        app:fabSize="normal"
+        android:src="@android:drawable/ic_input_add"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
