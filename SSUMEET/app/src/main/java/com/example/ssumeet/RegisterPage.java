@@ -84,7 +84,7 @@ public class RegisterPage extends AppCompatActivity {
         int arand = (int)rand;
         srand = Integer.toString(arand);
         String emailAddress = ((EditText) findViewById(R.id.id)).getText().toString();
-        emailAddress = emailAddress + "@ssu.ac.kr";
+        emailAddress = emailAddress + "@soongsil.ac.kr";
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .permitDiskReads()
