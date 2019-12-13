@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,17 +32,16 @@ import javax.mail.SendFailedException;
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener, Dialog.OnCancelListener{
     public FirebaseAuth mAuth;
     String srand;
-    String pw;
-    String pwCheck;
+    EditText pw, pwCheck;
+    ImageView setImage;
 
     LayoutInflater dialog;
     View dialogLayout;
     Dialog authDialog;
 
     TextView time_counter;
-    EditText emailAuth_number;
+    EditText emailAuth_number, checkNum;
     Button emailAuth_btn;
-    EditText checkNum;
     CountDownTimer countDownTimer;
     final int MILLISINFUTURE = 300 * 1000;
     final int COUNT_DOWN_INTERVAL = 1000;
@@ -77,14 +78,26 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         Button register_btn = findViewById(R.id.register_btn);
         register_btn.setOnClickListener(onClickListener);
 
-        ImageView x_img = findViewById(R.id.x_img);
-        ImageView check_img = findViewById(R.id.check_img);
-        pw = ((EditText)findViewById(R.id.pw)).getText().toString();
-        pwCheck = ((EditText)findViewById(R.id.pwCheck)).getText().toString();
-        if(pw.equals(pwCheck)) {
-            x_img.setVisibility(View.INVISIBLE);
-            check_img.setVisibility(View.VISIBLE);
-        }
+        pw = (EditText)findViewById(R.id.pw);
+        pwCheck = (EditText)findViewById(R.id.pwCheck);
+        setImage = (ImageView)findViewById(R.id.setImage);
+
+        pwCheck.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(pw.getText().toString().equals(pwCheck.getText().toString())) {
+                    setImage.setImageResource(R.drawable.back);
+                } else {
+                    setImage.setImageResource(R.drawable.back);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     @Override
