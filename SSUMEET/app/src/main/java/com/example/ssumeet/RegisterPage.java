@@ -1,17 +1,12 @@
 package com.example.ssumeet;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.StrictMode;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,23 +22,11 @@ import com.google.firebase.auth.FirebaseUser;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 
-public class RegisterPage extends AppCompatActivity implements View.OnClickListener, Dialog.OnCancelListener {
+public class RegisterPage extends AppCompatActivity {
     public FirebaseAuth mAuth;
     String srand;
     String pw;
     String pwCheck;
-
-    LayoutInflater dialog;
-    View dialogLayout;
-    Dialog authDialog;
-
-    TextView time_counter;
-    EditText emailAuth_number;
-    Button emailAuth_btn;
-    CountDownTimer countDownTimer;
-    final int MILLISINFUTURE = 300 * 1000;
-    final int COUNT_DOWN_INTERVAL = 1000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,15 +93,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         try {
             GMailSender gMailSender = new GMailSender("dle0129@gmail.com", "ehdrhs8615");
             gMailSender.sendMail("SSU MEET 인증메일입니다.", srand, emailAddress);
-            Toast.makeText(getApplicationContext(), "이메일이 전송되었습니다.", Toast.LENGTH_SHORT).show();
-            dialog = LayoutInflater.from(this);
-            dialogLayout = dialog.inflate(R.layout.auth_dialog, null);
-            authDialog = new Dialog(this);
-            authDialog.setContentView(dialogLayout);
-            authDialog.setCanceledOnTouchOutside(false);
-            authDialog.setOnCancelListener(this);
-            authDialog.show();
-            countDownTimer();
         } catch (SendFailedException e) {
             Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
         } catch (MessagingException e) {
@@ -158,46 +132,5 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         }
-    }
-
-    public void countDownTimer() {
-
-        time_counter = (TextView) dialogLayout.findViewById(R.id.emailAuth_time_counter);
-        emailAuth_number = (EditText) dialogLayout.findViewById(R.id.emailAuth_number);
-        emailAuth_btn = (Button) dialogLayout.findViewById(R.id.emailAuth_btn);
-
-        countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long emailAuthCount = millisUntilFinished / 1000;
-                if ((emailAuthCount - ((emailAuthCount / 60) * 60)) >= 10) {
-                    time_counter.setText((emailAuthCount / 60) + " : " + (emailAuthCount - ((emailAuthCount / 60) * 60)));
-                } else {
-                    time_counter.setText((emailAuthCount / 60) + " : 0" + (emailAuthCount - ((emailAuthCount / 60) * 60)));
-                }
-            }
-            @Override
-            public void onFinish() {
-                authDialog.cancel();
-            }
-        }.start();
-        emailAuth_btn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        countDownTimer.cancel();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.emailAuth_btn:
-                String emailAuth_num = emailAuth_number.getText().toString();
-                final EditText checkNum = (EditText)findViewById(R.id.checkNum);
-                checkNum.setText(emailAuth_num);
-                authDialog.dismiss();
-                break;
         }
-    }
 }
