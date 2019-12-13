@@ -1,12 +1,17 @@
 package com.example.ssumeet;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.StrictMode;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,11 +27,24 @@ import com.google.firebase.auth.FirebaseUser;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 
-public class RegisterPage extends AppCompatActivity {
+public class RegisterPage extends AppCompatActivity implements View.OnClickListener, Dialog.OnCancelListener{
     public FirebaseAuth mAuth;
     String srand;
     String pw;
     String pwCheck;
+
+    LayoutInflater dialog;
+    View dialogLayout;
+    Dialog authDialog;
+
+    TextView time_counter;
+    EditText emailAuth_number;
+    Button emailAuth_btn;
+    EditText checkNum;
+    CountDownTimer countDownTimer;
+    final int MILLISINFUTURE = 300 * 1000;
+    final int COUNT_DOWN_INTERVAL = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +52,7 @@ public class RegisterPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,11 +70,11 @@ public class RegisterPage extends AppCompatActivity {
                 }
             }
         };
-        Button back_btn = (Button) findViewById(R.id.back_btn);
+        Button back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(onClickListener);
-        Button check_btn = (Button) findViewById(R.id.check_btn);
+        Button check_btn = findViewById(R.id.check_btn);
         check_btn.setOnClickListener(onClickListener);
-        Button register_btn = (Button) findViewById(R.id.register_btn);
+        Button register_btn = findViewById(R.id.register_btn);
         register_btn.setOnClickListener(onClickListener);
 
         ImageView x_img = findViewById(R.id.x_img);
@@ -66,7 +85,6 @@ public class RegisterPage extends AppCompatActivity {
             x_img.setVisibility(View.INVISIBLE);
             check_img.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -93,6 +111,14 @@ public class RegisterPage extends AppCompatActivity {
         try {
             GMailSender gMailSender = new GMailSender("dle0129@gmail.com", "ehdrhs8615");
             gMailSender.sendMail("SSU MEET 인증메일입니다.", srand, emailAddress);
+            dialog = LayoutInflater.from(this);
+            dialogLayout = dialog.inflate(R.layout.auth_dialog, null);
+            authDialog = new Dialog(this);
+            authDialog.setContentView(dialogLayout);
+            authDialog.setCanceledOnTouchOutside(false);
+            authDialog.setOnCancelListener(this);
+            authDialog.show();
+            countDownTimer();
         } catch (SendFailedException e) {
             Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
         } catch (MessagingException e) {
@@ -106,6 +132,7 @@ public class RegisterPage extends AppCompatActivity {
         String email = ((EditText)findViewById(R.id.id)).getText().toString();
         email = email + "@ssu.ac.kr";
         String checkNum = ((EditText)findViewById(R.id.checkNum)).getText().toString();
+        startToast(checkNum);
         if(!pw.equals(pwCheck)) {
             startToast("비밀번호가 일치하지 않습니다.");
         }
@@ -132,5 +159,47 @@ public class RegisterPage extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    public void countDownTimer() {
+        time_counter = (TextView) dialogLayout.findViewById(R.id.emailAuth_time_counter);
+        emailAuth_number = (EditText) dialogLayout.findViewById(R.id.emailAuth_number);
+        emailAuth_btn = (Button) dialogLayout.findViewById(R.id.emailAuth_btn);
+
+        countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long emailAuthCount = millisUntilFinished / 1000;
+
+                if ((emailAuthCount - ((emailAuthCount / 60) * 60)) >= 10) {
+                    time_counter.setText((emailAuthCount / 60) + " : " + (emailAuthCount - ((emailAuthCount / 60) * 60)));
+                } else {
+                    time_counter.setText((emailAuthCount / 60) + " : 0" + (emailAuthCount - ((emailAuthCount / 60) * 60)));
+                }
+            }
+            @Override
+            public void onFinish() {
+                authDialog.cancel();
+            }
+        }.start();
+        emailAuth_btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        countDownTimer.cancel();
+    }
+
+    @Override
+    public void onClick(View v) {
+        emailAuth_btn = (Button) dialogLayout.findViewById(R.id.emailAuth_btn);
+        checkNum = (EditText) findViewById(R.id.checkNum);
+        emailAuth_number = (EditText)dialogLayout.findViewById(R.id.emailAuth_number);
+        switch (v.getId()) {
+            case R.id.emailAuth_btn:
+                checkNum.setText(emailAuth_number.getText().toString());
+                authDialog.dismiss();
+                break;
         }
+    }
 }
