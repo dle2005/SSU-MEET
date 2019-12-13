@@ -32,6 +32,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".chat.ChatActivity" />
+        <activity android:name=".ProfilePage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".chat.SelectUserActivity" />
         <activity android:name=".UserPWActivity" />
         <activity android:name=".photoview.ViewPagerActivity" />

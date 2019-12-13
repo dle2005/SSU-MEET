@@ -4,4 +4,11 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="please_grant_permission">권한을 허용해 주세요.</string>
     <string name="app_name">SSU MEET</string>
+    <string-array name="interest_dialog">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

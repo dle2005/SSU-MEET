@@ -1,6 +1,8 @@
 package com.example.ssumeet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ public class ProfilePage extends BasicActivity {
     private ImageView profile_image;
     private String chat_permission;
     private String ranchat_permission;
+    AlertDialog listDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,8 @@ public class ProfilePage extends BasicActivity {
                         Intent intent1 = new Intent(getApplicationContext(), Gallery.class);
                         startActivity(intent1);
                         break;
-
+                    case R.id.interest:
+                        interest_dialog();
                 }
             }
         };
@@ -63,6 +67,8 @@ public class ProfilePage extends BasicActivity {
         save_btn.setOnClickListener(onClickListener);
         Button gallery_btn = (Button) findViewById(R.id.gallery_btn);
         gallery_btn.setOnClickListener(onClickListener);
+        EditText interest = (EditText)findViewById(R.id.interest);
+        interest.setOnClickListener(onClickListener);
         profile_image = findViewById(R.id.profile_image);
 
         final EditText name_et = (EditText)findViewById(R.id.name);
@@ -184,6 +190,29 @@ public class ProfilePage extends BasicActivity {
                         }
                     });
         }
+    }
+
+    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            String[] data = getResources().getStringArray(R.array.interest_dialog);
+            if (dialog == listDialog) {
+                startToast(data[which] + " 선택하셨습니다.");
+            }
+            else if (dialog == listDialog && which == DialogInterface.BUTTON_POSITIVE) {
+                EditText interest = (EditText)findViewById(R.id.interest);
+                interest.setText(data[which]);
+            }
+        }
+    };
+    private void interest_dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("관심사");
+        builder.setSingleChoiceItems(R.array.interest_dialog, 0, dialogListener);
+        builder.setPositiveButton("확인", dialogListener);
+        builder.setNegativeButton("취소", null);
+        listDialog = builder.create();
+        listDialog.show();
     }
 
     private void startToast(String msg) {
