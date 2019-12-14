@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -19,9 +20,14 @@ import com.example.ssumeet.fragment.ChatRoomFragment;
 import com.example.ssumeet.fragment.PostFragment;
 import com.example.ssumeet.fragment.ProfileFragment;
 import com.example.ssumeet.fragment.UserListFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -42,16 +48,14 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         op_profilepage = (ImageButton)findViewById(R.id.op_profilepage);
         op_profilepage.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new MainPage.SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -64,16 +68,13 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
                     makeRoomBtn.show();
                 }
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 //makeRoomBtn.setVisibility(View.INVISIBLE);
                 makeRoomBtn.hide();
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -93,6 +94,28 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
                 startActivity(new Intent(v.getContext(), SelectUserActivity.class));
             }
         });
+        if(user == null) {
+            Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
+            startActivity(intent);
+        } else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference documentReference = db.collection("users").document(user.getUid());
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if(document != null) {
+                            if(document.exists()) {
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
     @Override
     public void onClick(View v) {
