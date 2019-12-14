@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,18 +29,21 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements  View.OnClickListener{
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
-
     private ViewPager mViewPager;
-
     private FloatingActionButton makeRoomBtn;
+
+    ImageButton op_profilepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
+
+        op_profilepage = (ImageButton)findViewById(R.id.op_profilepage);
+        op_profilepage.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -89,6 +93,15 @@ public class MainPage extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(), SelectUserActivity.class));
             }
         });
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.op_profilepage:
+                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     void sendRegistrationToServer() {
