@@ -2,6 +2,7 @@ package com.example.ssumeet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -148,8 +149,27 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
 
-        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.action_logout:
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(this, LoginPage.class);
+                this.startActivity(intent);
+                this.finish();
+
+                return true;
+
+            case R.id.action_profile:
+                intent = new Intent(this, ProfilePage.class);
+                this.startActivity(intent);
+                this.finish();
+
+                return true;
+
+        }
+
+        /*//noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, LoginPage.class);
@@ -157,7 +177,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
             this.finish();
 
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

@@ -123,8 +123,4 @@
         android:textColor="#FFFFFF"
         android:text="가입하기"/>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>

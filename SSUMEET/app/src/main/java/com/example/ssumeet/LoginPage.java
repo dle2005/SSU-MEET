@@ -34,22 +34,19 @@ public class LoginPage extends AppCompatActivity {
 
         user_id = findViewById(R.id.id);
 
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.login_btn:
-                        signIN();
-                        break;
-                    case R.id.register_btn:
-                        Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.resetPw_btn:
-                        Intent intent1 = new Intent(getApplicationContext(), ResetPwPage.class);
-                        startActivity(intent1);
-                        break;
-                }
+        Button.OnClickListener onClickListener = v -> {
+            switch (v.getId()) {
+                case R.id.login_btn:
+                    signIN();
+                    break;
+                case R.id.register_btn:
+                    Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
+                    startActivity(intent);
+                    break;
+                case R.id.resetPw_btn:
+                    Intent intent1 = new Intent(getApplicationContext(), ResetPwPage.class);
+                    startActivity(intent1);
+                    break;
             }
         };
         Button login_btn = (Button)findViewById(R.id.login_btn);
