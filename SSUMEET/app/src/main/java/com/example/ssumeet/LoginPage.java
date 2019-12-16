@@ -57,7 +57,7 @@ public class LoginPage extends AppCompatActivity {
         resetPw_btn.setOnClickListener(onClickListener);
 
         sharedPreferences = getSharedPreferences("ssumeet", Activity.MODE_PRIVATE);
-        String id = sharedPreferences.getString("user_id" + "@ssu.ac.kr", "");
+        String id = sharedPreferences.getString("user_id", "");
         if (!"".equals(id)) {
             user_id.setText(id);
         }
