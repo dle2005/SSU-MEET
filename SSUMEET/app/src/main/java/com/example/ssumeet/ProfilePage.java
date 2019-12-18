@@ -1,207 +1,191 @@
 package com.example.ssumeet;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.printservice.PrintService;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.ssumeet.common.Util9;
+import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
 
-public class ProfilePage extends BasicActivity {
-    FirebaseUser user;
-    private String profilePath;
-    private ImageView profile_image;
-    private String chat_permission;
-    private String ranchat_permission;
+public class ProfilePage extends AppCompatActivity {
+
+    private static final int PICK_FROM_ALBUM = 1;
+    private ImageView user_photo;
+    private EditText user_name;
+    private EditText user_age;
+    private EditText user_subject;
+    private EditText user_interest;
+    private EditText user_msg;
+
+    private com.example.ssumeet.model.ProfileModel ProfileModel;
+    private Uri userPhotoUri;
+
     AlertDialog listDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profilepage);
+        setContentView(R.layout.profile_page);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+        user_name = findViewById(R.id.name);
+        user_msg = findViewById(R.id.status);
+        user_age = findViewById(R.id.age);
+        user_subject = findViewById(R.id.subject);
+        user_interest = findViewById(R.id.interest);
+        user_photo = findViewById(R.id.profile_image);
+
+
+        user_interest.setOnClickListener(interestEditTextClickListener);
+        Button saveBtn = findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(saveBtnClickListener);
+        Button changeImage = findViewById(R.id.gallery_btn);
+        changeImage.setOnClickListener(changeImageBtnClickListener);
+        Button cancelBtn = findViewById(R.id.cancel_btn);
+        cancelBtn.setOnClickListener(cancelBtnClickListener);
+
+        getUserInfoFromServer();
+
+    }
+
+    void getUserInfoFromServer(){
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(uid);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.save_btn:
-                        profileUpdate();
-                        break;
-                    case R.id.gallery_btn:
-                        Intent intent1 = new Intent(getApplicationContext(), Gallery.class);
-                        startActivity(intent1);
-                        break;
-                    case R.id.interest:
-                        interest_dialog();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                ProfileModel = documentSnapshot.toObject(ProfileModel.class);
+                user_name.setText(ProfileModel.getName());
+                user_age.setText(ProfileModel.getAge());
+                user_subject.setText(ProfileModel.getSubject());
+                user_interest.setText(ProfileModel.getInterest());
+                user_msg.setText(ProfileModel.getStatusMsg());
+                if (ProfileModel.getPhotoUrl()!= null && !"".equals(ProfileModel.getPhotoUrl())) {
+                    Glide.with(ProfilePage.this).load(FirebaseStorage.getInstance().getReference("userPhoto/"+ ProfileModel.getPhotoUrl())).into(user_photo);
                 }
             }
-        };
-        Button save_btn = (Button) findViewById(R.id.save_btn);
-        save_btn.setOnClickListener(onClickListener);
-        Button gallery_btn = (Button) findViewById(R.id.gallery_btn);
-        gallery_btn.setOnClickListener(onClickListener);
-        EditText interest = (EditText)findViewById(R.id.interest);
-        interest.setOnClickListener(onClickListener);
-        profile_image = findViewById(R.id.profile_image);
+        });
+    }
 
-        final EditText name_et = (EditText)findViewById(R.id.name);
-        final EditText age_et = (EditText)findViewById(R.id.age);
-        final EditText subject_et = (EditText)findViewById(R.id.subject);
-        final EditText interest_et = (EditText)findViewById(R.id.interest);
-        final ImageView pthotoUrl_iv = (ImageView)findViewById(R.id.profile_image);
-        final CheckBox chat_cb = (CheckBox)findViewById(R.id.chat_check);
-        final CheckBox ranchat_cb = (CheckBox)findViewById(R.id.ranchat_check);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Intent intent = getIntent();
-        String attach = intent.getStringExtra("Attach");
-        if(!attach.equals("first_time")) {
-            DocumentReference docRef = db.collection("users").document(user.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String name = task.getResult().getData().get("name").toString();
-                            name_et.setText(name);
-                            String age = task.getResult().getData().get("age").toString();
-                            age_et.setText(age);
-                            String subject = task.getResult().getData().get("subject").toString();
-                            subject_et.setText(subject);
-                            String interest = task.getResult().getData().get("interest").toString();
-                            interest_et.setText(interest);
-                            String photoUrl = task.getResult().getData().get("photoUrl").toString();
-                            String chat_permission = task.getResult().getData().get("chat_permission").toString();
-                            if(chat_permission.equals("true")) {
-                                chat_cb.setChecked(true);
-                            } else {
-                                chat_cb.setChecked(false);
-                            }
-                            String ranchat_permission = task.getResult().getData().get("ranchat_permission").toString();
-                            if(ranchat_permission.equals("true")) {
-                                ranchat_cb.setChecked(true);
-                            } else {
-                                ranchat_cb.setChecked(false);
-                            }
-                        } else {
-                        }
-                    } else {
-                    }
-                }
-            });
-
+        if (requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK) {
+            user_photo.setImageURI(data.getData());
+            userPhotoUri = data.getData();
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void profileUpdate() {
-        final String name = ((EditText)findViewById(R.id.name)).getText().toString();
-        final String age = ((EditText)findViewById(R.id.age)).getText().toString();
-        final String subject = ((EditText)findViewById(R.id.subject)).getText().toString();
-        final String interest = ((EditText)findViewById(R.id.interest)).getText().toString();
-        CheckBox chat_check = (CheckBox) findViewById(R.id.chat_check);
-        CheckBox ranchat_check = (CheckBox) findViewById(R.id.ranchat_check);
-        if(chat_check.isChecked()) { chat_permission = "true"; }
-        else { chat_permission = "false"; }
-        if(ranchat_check.isChecked()) { ranchat_permission = "true"; }
-        else { ranchat_permission = "false"; }
+    Button.OnClickListener saveBtnClickListener = new View.OnClickListener() {
+        public void onClick(final View view) {
+            if (!validateForm()) return;
+            ProfileModel.setName(user_name.getText().toString());
+            ProfileModel.setAge(user_age.getText().toString());
+            ProfileModel.setSubject(user_subject.getText().toString());
+            ProfileModel.setInterest(user_interest.getText().toString());
+            ProfileModel.setStatusMsg(user_msg.getText().toString());
 
-        if (name.length() > 0 && age.length() > 0 && subject.length() > 0 && interest.length() > 0) {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-            user = FirebaseAuth.getInstance().getCurrentUser();
-            final StorageReference mountainImagesRef = storageRef.child("users/" + user.getUid() + "/profileImage.jpg");
-            user = FirebaseAuth.getInstance().getCurrentUser();
 
-            if (profilePath == null) {
-                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest, chat_permission, ranchat_permission);
-                userInfoUpdate(profileInfo);
-            } else {
-                try {
-                    InputStream stream = new FileInputStream(new File(profilePath));
-                    UploadTask uploadTask = mountainImagesRef.putStream(stream);
-                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                            if (!task.isSuccessful()) {
-                                throw task.getException();
-                            }
-                            return mountainImagesRef.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
+            final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                                ProfileInfo profileInfo = new ProfileInfo(name, age, subject, interest, chat_permission, ranchat_permission);
-                                userInfoUpdate(profileInfo);
-                            } else {
-                                startToast(ProfilePage.this, "회원정보를 보내는데 실패하였습니다.");
-                            }
-                        }
-                    });
-                } catch (FileNotFoundException e) {
-                    Log.e("로그", "에러: " + e.toString());
-                }
+            if (userPhotoUri!=null) {
+                ProfileModel.setPhotoUrl( uid );
             }
-        } else {
-                startToast("회원정보를 입력해주세요.");
-            }
-    }
 
-    private void userInfoUpdate(ProfileInfo profileInfo) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        if(user != null) {
-            db.collection("users").document(user.getUid()).set(profileInfo)
+            db.collection("users").document(uid)
+                    .set(ProfileModel)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            startToast("회원정보 등록이 완료되었습니다.");
-                            finish();
+                            if (userPhotoUri==null) {
+                                Util9.showMessage(ProfilePage.this, "Success to Save.");
+                            } else {
+                                // small image
+                                Glide.with(ProfilePage.this)
+                                        .asBitmap()
+                                        .load(userPhotoUri)
+                                        .apply(new RequestOptions().override(150, 150))
+                                        .into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                                byte[] data = baos.toByteArray();
+                                                FirebaseStorage.getInstance().getReference().child("userPhoto/" + uid).putBytes(data);
+                                                Util9.showMessage(ProfilePage.this, "Success to Save.");
+
+                                            }
+                                        });
+                            }
+                            Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                            startActivity(intent);
                         }
                     });
         }
-    }
+    };
+
+    Button.OnClickListener changeImageBtnClickListener = new View.OnClickListener() {
+        public void onClick(final View view) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            startActivityForResult(intent, PICK_FROM_ALBUM);
+        }
+    };
+
+    Button.OnClickListener cancelBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), MainPage.class);
+            startActivity(intent);
+        }
+    };
+
+    EditText.OnClickListener interestEditTextClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            interest_dialog();
+        }
+    };
 
     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             String[] data = getResources().getStringArray(R.array.interest_dialog);
             if (dialog == listDialog) {
-                startToast(data[which] + " 선택하셨습니다.");
+                Util9.showMessage(ProfilePage.this, data[which] + "선택하셨습니다.");
             }
             else if (dialog == listDialog && which == DialogInterface.BUTTON_POSITIVE) {
-                EditText interest = (EditText)findViewById(R.id.interest);
-                interest.setText(data[which]);
+                user_interest.setText(data[which]);
             }
         }
     };
@@ -215,10 +199,27 @@ public class ProfilePage extends BasicActivity {
         listDialog.show();
     }
 
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String userName = user_name.getText().toString();
+        if (TextUtils.isEmpty(userName)) {
+            user_name.setError("Required.");
+            valid = false;
+        } else {
+            user_name.setError(null);
+        }
+
+        String userMsg = user_msg.getText().toString();
+        if (TextUtils.isEmpty(userMsg)) {
+            user_msg.setError("Required.");
+            valid = false;
+        } else {
+            user_msg.setError(null);
+        }
+        Util9.hideKeyboard(ProfilePage.this);
+
+        return valid;
     }
-    private void startToast(Activity activity, String msg) {
-        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-    }
+
 }

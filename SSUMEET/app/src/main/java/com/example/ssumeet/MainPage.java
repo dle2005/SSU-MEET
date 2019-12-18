@@ -2,7 +2,6 @@ package com.example.ssumeet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +108,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
                         if(document != null) {
                             if(document.exists()) {
                             } else {
-                                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                                Intent intent = new Intent(getApplicationContext(), ProfilePageBU.class);
                                 startActivity(intent);
                             }
                         }
@@ -122,7 +121,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.op_profilepage:
-                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                Intent intent = new Intent(getApplicationContext(), ProfilePageBU.class);
                 startActivity(intent);
                 break;
         }
