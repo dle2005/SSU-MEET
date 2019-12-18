@@ -58,7 +58,7 @@ public class ViewPagerActivity extends AppCompatActivity {
 	private static String realname;
 	private static ViewPager viewPager;
 	private static ArrayList<Message> imgList = new ArrayList<>();
-    private String rootPath = Util9.getRootPath()+"/DirectTalk9/";
+    private String rootPath = Util9.getRootPath()+"/ssumeet/";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,12 +111,12 @@ public class ViewPagerActivity extends AppCompatActivity {
 				public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 					// hideProgressDialog();
 					Util9.showMessage(view.getContext(), "Downloaded file");
-					Log.e("DirectTalk9 ","local file created " +localFile.toString());
+					Log.e("ssumeet ","local file created " +localFile.toString());
 				}
 			}).addOnFailureListener(new OnFailureListener() {
 				@Override
 				public void onFailure(@NonNull Exception exception) {
-					Log.e("DirectTalk9 ","local file not created  " +exception.toString());
+					Log.e("ssumeet ","local file not created  " +exception.toString());
 				}
 			});
 		}
