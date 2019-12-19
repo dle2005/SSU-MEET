@@ -152,7 +152,7 @@ public class MainPage extends AppCompatActivity {
             boolean checkRandom = true;
             String toUid = userUids[ran.nextInt(size)];
 
-            for(;;) {
+            for(int i = 0; i < size; i++) {
                 if (toUid.equals(myUid)) continue;
                 else {
                     toUid = userUids[ran.nextInt(size)];
@@ -162,7 +162,6 @@ public class MainPage extends AppCompatActivity {
 
             Intent intent = new Intent(this, ChatActivity.class);
             intent.putExtra("toUid", toUid);
-            intent.putExtra("checkRandom", checkRandom);
             startActivity(intent);
         });
 
@@ -174,7 +173,7 @@ public class MainPage extends AppCompatActivity {
 
             int j = 0;
 
-            for(int i = 1; i <= size; i++) {
+            for(int i = 0; i < size; i++) {
                 if(myInterest.equals(userInterests[i]))
                 {
                     if(myUid.equals(userUids[i])) continue;
@@ -238,7 +237,7 @@ public class MainPage extends AppCompatActivity {
                         userInterests[i] = document.getString("interest");
 
 
-                        if(document.getId() == user.getUid())
+                        if(document.getId().equals(user.getUid()))
                             myInterest = userInterests[i];
                         i++;
 
