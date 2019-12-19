@@ -35,7 +35,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainPage extends AppCompatActivity implements  View.OnClickListener{
+public class MainPage extends AppCompatActivity{
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -147,7 +147,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
 
                 return true;
 
-            case R.id.action_xprofile:
+            case R.id.action_profile:
                 intent = new Intent(this, ProfilePage.class);
                 this.startActivity(intent);
                 this.finish();

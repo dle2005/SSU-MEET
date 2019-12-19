@@ -185,12 +185,15 @@ public class ProfilePage extends AppCompatActivity {
     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            String[] data = getResources().getStringArray(R.array.interest_dialog);
+            String result = null;
             if (dialog == listDialog) {
+                String[] data = getResources().getStringArray(R.array.interest_dialog);
+                result = data[which];
                 Util9.showMessage(ProfilePage.this, data[which] + "선택하셨습니다.");
             }
             else if (dialog == listDialog && which == DialogInterface.BUTTON_POSITIVE) {
-                user_interest.setText(data[which]);
+                String[] data = getResources().getStringArray(R.array.interest_dialog);
+                user_interest.setText(result);
             }
         }
     };
