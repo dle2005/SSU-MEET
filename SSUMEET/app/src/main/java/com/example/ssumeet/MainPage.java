@@ -35,7 +35,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainPage extends AppCompatActivity{
+public class MainPage extends AppCompatActivity implements  View.OnClickListener{
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -49,6 +49,9 @@ public class MainPage extends AppCompatActivity{
         setContentView(R.layout.mainpage);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        op_profilepage = (ImageButton)findViewById(R.id.op_profilepage);
+        op_profilepage.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,13 +108,22 @@ public class MainPage extends AppCompatActivity{
                         if(document != null) {
                             if(document.exists()) {
                             } else {
-                                Intent intent = new Intent(getApplicationContext(), ProfilePageBU.class);
+                                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                                 startActivity(intent);
                             }
                         }
                     }
                 }
             });
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.op_profilepage:
+                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                startActivity(intent);
+                break;
         }
     }
 
