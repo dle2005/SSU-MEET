@@ -35,13 +35,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainPage extends AppCompatActivity implements  View.OnClickListener{
+public class MainPage extends AppCompatActivity {
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private FloatingActionButton makeRoomBtn;
-
-    ImageButton op_profilepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +47,6 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
         setContentView(R.layout.mainpage);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        op_profilepage = (ImageButton)findViewById(R.id.op_profilepage);
-        op_profilepage.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,6 +89,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
                 startActivity(new Intent(v.getContext(), SelectUserActivity.class));
             }
         });
+
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
             startActivity(intent);
@@ -117,15 +113,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
             });
         }
     }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.op_profilepage:
-                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
-                startActivity(intent);
-                break;
-        }
-    }
+
 
     void sendRegistrationToServer() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
