@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF0F5">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/watermelonPink"
+    android:gravity="center">
+        <TextView
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="프로필"
+            android:textSize="25dp"/>
+</LinearLayout>
+    <LinearLayout
+        android:background="@drawable/box_contain"
+        android:backgroundTint="#F08080"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp">
+    <ImageView
+        android:id="@+id/your_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/profile_person"
+        android:layout_gravity="center" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginLeft="30dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/your_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구본휘"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:background="@drawable/box_contain"
+            android:layout_marginTop="15dp"
+            android:id="@+id/your_think"
+            android:layout_width="150dp"
+            android:text="기부니 안 좋아"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="60dp"
+                android:text="나이"
+                android:textColor="@color/deepPink"
+                android:textSize="25dp"/>
+            <TextView
+                android:id="@+id/your_age"
+                android:layout_width="100dp"
+                android:text="25"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginLeft="60dp"
+                    android:text="학과"
+                    android:textColor="@color/deepPink"
+                    android:textSize="25dp"/>
+                <TextView
+                    android:id="@+id/your_major"
+                    android:layout_width="100dp"
+                    android:text="컴퓨터"
+                    android:textSize="25dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginLeft="60dp"
+                    android:text="관심사"
+                    android:textColor="@color/deepPink"
+                    android:textSize="25dp"/>
+                <TextView
+                    android:id="@+id/your_interest"
+                    android:layout_width="100dp"
+                    android:text="영화"
+                    android:textSize="25dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#F0FFF0"
+            android:text="친구추가"
+            android:visibility="visible"/>
+        <Button
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="대화하기"
+            android:visibility="invisible"
+            android:background="#F0FFF0"/>
+    </LinearLayout>
+
+</LinearLayout>
