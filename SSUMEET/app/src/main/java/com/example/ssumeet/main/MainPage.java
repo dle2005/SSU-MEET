@@ -175,13 +175,14 @@ public class MainPage extends AppCompatActivity {
             for(int i = 1; i <= size; i++) {
                 if(myInterest.equals(userInterests[i]))
                 {
-                    toUid[j++] = userUids[i];
+                    if(myUid.equals(userUids[i])) continue;
+                    else toUid[j++] = userUids[i];
                 }
             }
 
-
+            String matchUid = toUid[ran.nextInt(j)];
             Intent intent = new Intent(this, ChatActivity.class);
-            intent.putExtra("toUid", toUid);
+            intent.putExtra("toUid", matchUid);
             startActivity(intent);
 
         });
