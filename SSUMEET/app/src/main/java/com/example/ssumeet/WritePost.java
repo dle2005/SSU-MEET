@@ -46,7 +46,6 @@ public class WritePost extends AppCompatActivity {
     private StorageReference storageRef;
     private ArrayList<String> pathList = new ArrayList<>();
     private PostInfo postInfo;
-    private RelativeLayout loaderLayout;
     private EditText contentsEditText;
     private EditText titleEditText;
     private EditText selectedEditText;
@@ -62,7 +61,6 @@ public class WritePost extends AppCompatActivity {
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
-        loaderLayout = findViewById(R.id.loaderLyaout);
         contentsEditText = findViewById(R.id.contentsEditText);
         titleEditText = findViewById(R.id.titleEditText);
 
@@ -151,7 +149,6 @@ public class WritePost extends AppCompatActivity {
     private void writePost() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
         if (title.length() > 0) {
-            loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -225,7 +222,6 @@ public class WritePost extends AppCompatActivity {
     private void uploader() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
         if (title.length() > 0) {
-            loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -301,7 +297,6 @@ public class WritePost extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        loaderLayout.setVisibility(View.GONE);
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("postInfo", (Serializable) postInfo);
                         setResult(Activity.RESULT_OK, resultIntent);
@@ -311,7 +306,6 @@ public class WritePost extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        loaderLayout.setVisibility(View.GONE);
                     }
                 });
     }
