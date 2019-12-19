@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1038420430954-e7gfb6r3gmc68435ijauvvok942qs0ii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ssumeet",
+            "certificate_hash": "e1c25796f9e9af0702616407af6170f53f13a493"
+          }
+        },
+        {
           "client_id": "1038420430954-9k6h83eu9u64dlf1scv8a3g0vl0au489.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

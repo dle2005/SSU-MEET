@@ -46,8 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/tabs"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="-3dp"
             android:layout_weight="1"
+            android:background="#FFF0F5"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.tabs.TabLayout
@@ -71,13 +72,13 @@
                 android:id="@+id/tabItem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@android:drawable/sym_action_chat" />
+                android:icon="@drawable/second" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/pen" />
+                android:icon="@drawable/third" />
 
         </com.google.android.material.tabs.TabLayout>
 

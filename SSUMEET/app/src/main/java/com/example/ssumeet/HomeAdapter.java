@@ -60,7 +60,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, Post.class);
-                intent.putExtra("postInfo", (Parcelable) mDataset.get(mainViewHolder.getAdapterPosition()));
+                Intent postInfo = intent.putExtra("postInfo", (Parcelable) mDataset.get(mainViewHolder.getAdapterPosition()));
                 activity.startActivity(intent);
             }
         });
