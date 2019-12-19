@@ -38,6 +38,7 @@ public class ResetPwPage extends AppCompatActivity {
 
     private void send() {
         String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
+        email = email + "@soongsil.ac.kr";
         if (email.length() > 0) {
             final RelativeLayout loaderLayout = findViewById(R.id.loaderLyaout);
             loaderLayout.setVisibility(View.VISIBLE);
@@ -49,6 +50,7 @@ public class ResetPwPage extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 showToast(ResetPwPage.this, "이메일을 보냈습니다.");
                             }
+                            else showToast(ResetPwPage.this, "이메일 전송에 실패했습니다.");
                         }
                     });
         } else {

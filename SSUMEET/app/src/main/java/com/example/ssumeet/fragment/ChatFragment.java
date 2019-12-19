@@ -38,12 +38,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
 import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ChatModel;
 import com.example.ssumeet.model.Message;
 import com.example.ssumeet.model.NotificationModel;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.photoview.ViewPagerActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -72,7 +72,6 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -103,6 +102,7 @@ public class ChatFragment extends Fragment {
     private String roomID;
     private String myUid;
     private String toUid;
+    private String sendToUid;
     private Map<String, ProfileModel> userList = new HashMap<>();
 
     private ListenerRegistration listenerRegistration;
@@ -112,6 +112,8 @@ public class ChatFragment extends Fragment {
 
     private ProgressDialog progressDialog = null;
     private Integer userCount = 0;
+
+    private ImageView user_photo;
 
     public ChatFragment() {
     }
@@ -152,6 +154,7 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             roomID = getArguments().getString("roomID");
             toUid = getArguments().getString("toUid");
+            Log.d("debug", toUid);
         }
 
         firestore = FirebaseFirestore.getInstance();

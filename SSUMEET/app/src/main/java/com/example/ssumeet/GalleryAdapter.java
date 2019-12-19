@@ -15,14 +15,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
+import static com.example.ssumeet.post.Util.INTENT_PATH;
+
+public class GalleryAdapter  extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
     private ArrayList<String> mDataset;
     private Activity activity;
-
-    public GalleryAdapter(Activity activity, ArrayList<String> myDataset) {
-        mDataset = myDataset;
-        this.activity = activity;
-    }
 
     static class GalleryViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
@@ -30,6 +27,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             super(v);
             cardView = v;
         }
+    }
+
+    public GalleryAdapter(Activity activity, ArrayList<String> myDataset) {
+        mDataset = myDataset;
+        this.activity = activity;
     }
 
     @NonNull
@@ -41,16 +43,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("path", mDataset.get(galleryViewHolder.getAdapterPosition()));
+                resultIntent.putExtra(INTENT_PATH, mDataset.get(galleryViewHolder.getAdapterPosition()));
                 activity.setResult(Activity.RESULT_OK, resultIntent);
                 activity.finish();
             }
         });
+
         return galleryViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GalleryAdapter.GalleryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final GalleryViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = cardView.findViewById(R.id.imageView);
         Glide.with(activity).load(mDataset.get(position)).centerCrop().override(500).into(imageView);
