@@ -25,14 +25,25 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <EditText
-                android:id="@+id/emailEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:ems="10"
-                android:hint="이메일"
-                android:inputType="textEmailAddress" />
+                android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
+                    android:ems="10"
+                    android:hint="이메일"
+                    android:inputType="textEmailAddress" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@ soongsil.ac.kr"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/sendButton"
