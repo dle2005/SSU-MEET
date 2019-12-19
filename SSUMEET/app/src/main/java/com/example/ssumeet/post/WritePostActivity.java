@@ -259,6 +259,7 @@ public class WritePostActivity extends BasicActivity {
                                             if (successCount == 0) {
                                                 PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
                                                 storeUpload(documentReference, postInfo);
+
                                             }
                                         }
                                     });
