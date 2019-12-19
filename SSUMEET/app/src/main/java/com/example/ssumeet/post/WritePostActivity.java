@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.ssumeet.R;
-import com.example.ssumeet.main.ContentsItemView;
-import com.example.ssumeet.main.GalleryActivity;
+import com.example.ssumeet.ContentsItemView;
+import com.example.ssumeet.GalleryActivity;
 import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -288,9 +288,9 @@ public class WritePostActivity extends BasicActivity {
                         user_name = ProfileModel.getName();
                     }
                 });
+                Log.d("publisher", user_name);
                 storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user_name, date));
-            }
-        } else {
+            }        } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
         }
     }

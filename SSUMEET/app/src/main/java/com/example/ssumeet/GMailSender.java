@@ -1,4 +1,4 @@
-package com.example.ssumeet.main;
+package com.example.ssumeet;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

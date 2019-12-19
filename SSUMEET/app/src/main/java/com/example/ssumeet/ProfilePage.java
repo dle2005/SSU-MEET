@@ -1,4 +1,4 @@
-package com.example.ssumeet.main;
+package com.example.ssumeet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,8 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.example.ssumeet.MainPage;
-import com.example.ssumeet.R;
 import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -1,4 +1,4 @@
-package com.example.ssumeet.main;
+package com.example.ssumeet;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ssumeet.R;
 import com.example.ssumeet.post.BasicActivity;
 
 import java.util.ArrayList;

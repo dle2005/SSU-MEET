@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import com.example.ssumeet.R;
-import com.example.ssumeet.main.FirebaseHelper;
+import com.example.ssumeet.FirebaseHelper;
 
 public class PostActivity extends BasicActivity {
     private PostInfo postInfo;

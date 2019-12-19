@@ -1,4 +1,4 @@
-package com.example.ssumeet.main;
+package com.example.ssumeet;
 
 import android.content.Context;
 import android.util.AttributeSet;

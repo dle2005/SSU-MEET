@@ -12,10 +12,12 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.ssumeet.MainPage;
 import com.example.ssumeet.R;
-import com.example.ssumeet.main.MainPage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {

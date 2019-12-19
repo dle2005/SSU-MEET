@@ -16,7 +16,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ssumeet.R;
-import com.example.ssumeet.main.FirebaseHelper;
+import com.example.ssumeet.FirebaseHelper;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.ssumeet.main;
+package com.example.ssumeet;
 
 import android.app.Activity;
 import android.util.Patterns;
