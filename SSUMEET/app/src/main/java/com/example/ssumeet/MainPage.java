@@ -1,11 +1,13 @@
 package com.example.ssumeet;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +20,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
-import com.example.ssumeet.fragment.HomeFragment;
+import com.example.ssumeet.fragment.ProfileFragment;
 import com.example.ssumeet.fragment.UserListFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,19 +38,26 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MainPage extends AppCompatActivity {
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private FloatingActionButton makeRoomBtn;
+    private TextView makeRoomText;
     private FloatingActionButton ranChatBtn;
+    private TextView ranChatText;
     private FloatingActionButton p2pChatBtn;
+    private TextView p2pChatText;
     private FloatingActionButton menuBtn;
+
+    private boolean menuClick = false;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
+    String[] userUids;
+    int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,7 @@ public class MainPage extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getUsersUid();
         mSectionsPagerAdapter = new MainPage.SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -69,13 +78,20 @@ public class MainPage extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition()==1) {     // char room
                     //makeRoomBtn.setVisibility(View.VISIBLE);
-                    makeRoomBtn.show();
+                    menuBtn.show();
                 }
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 //makeRoomBtn.setVisibility(View.INVISIBLE);
                 makeRoomBtn.hide();
+                ranChatBtn.hide();
+                p2pChatBtn.hide();
+                menuBtn.hide();
+                makeRoomText.setVisibility(View.INVISIBLE);
+                ranChatText.setVisibility(View.INVISIBLE);
+                p2pChatText.setVisibility(View.INVISIBLE);
+                mViewPager.setBackgroundColor(Color.TRANSPARENT);
             }
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -87,16 +103,68 @@ public class MainPage extends AppCompatActivity {
 
         sendRegistrationToServer();
 
+        makeRoomBtn = findViewById(R.id.makeRoomBtn);
+        makeRoomText = findViewById(R.id.makeRoomText);
+        makeRoomBtn.hide();
+        makeRoomText.setVisibility(View.INVISIBLE);
         ranChatBtn = findViewById(R.id.ranChatBtn);
+        ranChatText = findViewById(R.id.ranChatText);
         ranChatBtn.hide();
-        ranChatBtn.setOnClickListener(v ->  {
-            RandomChatting();
+        ranChatText.setVisibility(View.INVISIBLE);
+        p2pChatBtn = findViewById(R.id.p2pChatBtn);
+        p2pChatText = findViewById(R.id.p2pChatText);
+        p2pChatBtn.hide();
+        p2pChatText.setVisibility(View.INVISIBLE);
+        menuBtn = findViewById(R.id.menuBtn);
+        menuBtn.hide();
+
+        menuBtn.setOnClickListener(v -> {
+            if(menuClick == false) {
+                mViewPager.setBackgroundColor(Color.GRAY);
+                makeRoomBtn.show();
+                makeRoomText.setVisibility(View.VISIBLE);
+                ranChatBtn.show();
+                ranChatText.setVisibility(View.VISIBLE);
+                p2pChatBtn.show();
+                p2pChatText.setVisibility(View.VISIBLE);
+                menuBtn.show();
+                menuClick = true;
+            }
+            else {
+                mViewPager.setBackgroundColor(Color.TRANSPARENT);
+                makeRoomBtn.hide();
+                ranChatBtn.hide();
+                p2pChatBtn.hide();
+                makeRoomText.setVisibility(View.INVISIBLE);
+                ranChatText.setVisibility(View.INVISIBLE);
+                p2pChatText.setVisibility(View.INVISIBLE);
+                menuClick = false;
+            }
         });
 
+        ranChatBtn.setOnClickListener(v ->  {
+            Random ran = new Random();
+            String myUid = user.getUid();
 
-        makeRoomBtn = findViewById(R.id.makeRoomBtn);
-        //makeRoomBtn.setVisibility(View.INVISIBLE);
-        makeRoomBtn.hide();
+            String toUid = userUids[ran.nextInt(size)];
+
+            for(;;) {
+                if (toUid.equals(myUid)) continue;
+                else {
+                    toUid = userUids[ran.nextInt(size)];
+                    break;
+                }
+            }
+
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("toUid", toUid);
+            startActivity(intent);
+        });
+
+        p2pChatBtn.setOnClickListener(v -> {
+
+        });
+
         makeRoomBtn.setOnClickListener(v ->
                 startActivity(new Intent(v.getContext(), SelectUserActivity.class)));
 
@@ -124,36 +192,31 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
-    private void RandomChatting() {
-
-        String myUid = user.getUid();
+    private void getUsersUid() {
 
         FirebaseFirestore userdb = FirebaseFirestore.getInstance();
         userdb.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            int i = 0;
-            String[] userUid;
-            int size;
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
+                int i = 0;
                 size = task.getResult().size();
-                userUid = new String[size];
+                userUids = new String[size];
+
+                Log.d("superdroid", String.valueOf(task.getResult().size()));
 
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        //Log.d("superdroid", document.getId() + " => " + document.getData());
-                        userUid[i++] = document.getId();
+                        Log.d("superdroid", document.getId() + " => " + document.getData());
+                        userUids[i++] = document.getId();
+
                     }
                 } else {
                     Log.d("superdroid", "Error getting documents: ", task.getException());
                 }
             }
         });
-
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-        intent.putExtra("toUid", user.getUid());
-        startActivity(intent);
 
     }
 
@@ -227,7 +290,7 @@ public class MainPage extends AppCompatActivity {
             switch (position) {
                 case 0: return new UserListFragment();
                 case 1: return new ChatRoomFragment();
-                default: return new HomeFragment();
+                default: return new ProfileFragment();//new HomeFragment();
             }
         }
 

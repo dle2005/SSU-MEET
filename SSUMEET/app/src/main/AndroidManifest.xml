@@ -11,9 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PostPage"></activity>
         <activity android:name=".ProfilePage" />
-        <activity android:name=".fragment.PostFragment" />
         <activity android:name=".Post" />
         <activity android:name=".WritePost" />
         <activity android:name=".Gallery" />
