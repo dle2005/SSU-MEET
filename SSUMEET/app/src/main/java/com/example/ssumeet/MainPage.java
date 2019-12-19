@@ -35,13 +35,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainPage extends AppCompatActivity{
+public class MainPage extends AppCompatActivity {
 
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private FloatingActionButton makeRoomBtn;
-
-    ImageButton op_profilepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +89,7 @@ public class MainPage extends AppCompatActivity{
                 startActivity(new Intent(v.getContext(), SelectUserActivity.class));
             }
         });
+
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
             startActivity(intent);
@@ -105,7 +104,7 @@ public class MainPage extends AppCompatActivity{
                         if(document != null) {
                             if(document.exists()) {
                             } else {
-                                Intent intent = new Intent(getApplicationContext(), ProfilePageBU.class);
+                                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                                 startActivity(intent);
                             }
                         }
@@ -114,6 +113,7 @@ public class MainPage extends AppCompatActivity{
             });
         }
     }
+
 
     void sendRegistrationToServer() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();

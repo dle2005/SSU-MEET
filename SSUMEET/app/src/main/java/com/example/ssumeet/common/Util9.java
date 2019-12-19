@@ -28,7 +28,6 @@ public class Util9 {
 
     public static void showMessage(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 
@@ -70,16 +69,16 @@ public class Util9 {
     public  static boolean isPermissionGranted(Activity activity, String permission) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
-                Log.v("SSUMEET","Permission is granted");
+                Log.v("SSUMEET","권한이 허용되었습니다.");
                 return true;
             } else {
-                Log.v("SSUMEET","Permission is revoked");
+                Log.v("SSUMEET","권한이 거절되었습니다");
                 ActivityCompat.requestPermissions(activity, new String[]{permission}, 1);
                 return false;
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("SSUMEET","Permission is granted");
+            Log.v("SSUMEET","권한이 허용되었습니다.");
             return true;
         }
     }

@@ -1,2 +1,2 @@
-include ':app', ':activation'
+include ':app'
 rootProject.name='SSU MEET'

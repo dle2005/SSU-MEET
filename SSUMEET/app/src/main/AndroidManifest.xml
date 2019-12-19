@@ -19,14 +19,9 @@
         <activity android:name=".Gallery" />
         <activity android:name=".ResetPwPage" />
         <activity android:name=".MainPage" />
-        <activity
-            android:name=".RegisterPage"
-            android:noHistory="true" />
-        <activity
-            android:name=".LoginPage"
-            android:noHistory="true" />
+        <activity android:name=".RegisterPage" />
+        <activity android:name=".LoginPage"/>
         <activity android:name=".chat.ChatActivity" />
-        <activity android:name=".ProfilePageBU" />
         <activity android:name=".chat.SelectUserActivity" />
         <activity android:name=".UserPWActivity" />
         <activity android:name=".photoview.ViewPagerActivity" />
