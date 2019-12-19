@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mistyRose"
+    android:background="#D8BFD8"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -57,7 +57,7 @@
         android:layout_marginTop="20dp"
         android:textColor="#FFFFFF"
         android:layout_gravity="center"
-        android:backgroundTint="@color/pinkLemonade"
+        android:backgroundTint="#FF69B4"
         android:background="@drawable/roundbutton"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"
-        android:backgroundTint="@color/pinkLemonade"
+        android:backgroundTint="#FF69B4"
         android:background="@drawable/roundbutton"
         android:textSize="20dp"
         android:textColor="#FFFFFF"
