@@ -186,15 +186,22 @@ public class ProfilePage extends AppCompatActivity {
     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            String result = null;
-            if (dialog == listDialog) {
-                String[] data = getResources().getStringArray(R.array.interest_dialog);
-                result = data[which];
-                Util9.showMessage(ProfilePage.this, data[which] + "선택하셨습니다.");
-            }
-            else if (dialog == listDialog && which == DialogInterface.BUTTON_POSITIVE) {
-                String[] data = getResources().getStringArray(R.array.interest_dialog);
-                user_interest.setText(result);
+            switch (which) {
+                case 0:
+                    user_interest.setText("공부");
+                    break;
+                case 1:
+                    user_interest.setText("문화");
+                    break;
+                case 2:
+                    user_interest.setText("운동");
+                    break;
+                case 3:
+                    user_interest.setText("남자");
+                    break;
+                case 4:
+                    user_interest.setText("여자");
+                    break;
             }
         }
     };
@@ -202,7 +209,7 @@ public class ProfilePage extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("관심사");
         builder.setSingleChoiceItems(R.array.interest_dialog, 0, dialogListener);
-        builder.setPositiveButton("확인", dialogListener);
+        builder.setPositiveButton("확인", null);
         builder.setNegativeButton("취소", null);
         listDialog = builder.create();
         listDialog.show();
