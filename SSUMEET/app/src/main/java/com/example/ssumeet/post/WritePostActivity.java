@@ -60,9 +60,6 @@ public class WritePostActivity extends BasicActivity {
     private PostInfo postInfo;
     private int pathCount, successCount;
 
-    private com.example.ssumeet.model.ProfileModel ProfileModel;
-    private String user_name;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,7 +259,6 @@ public class WritePostActivity extends BasicActivity {
                                             if (successCount == 0) {
                                                 PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
                                                 storeUpload(documentReference, postInfo);
-
                                             }
                                         }
                                     });
@@ -277,11 +273,11 @@ public class WritePostActivity extends BasicActivity {
             }
             if (successCount == 0) {
                 storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
-            }        } else {
+            }
+        } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
         }
     }
-
 
     private void storeUpload(DocumentReference documentReference, final PostInfo postInfo) {
         documentReference.set(postInfo.getPostInfo())
