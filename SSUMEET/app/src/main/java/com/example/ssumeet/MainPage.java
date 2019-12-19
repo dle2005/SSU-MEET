@@ -2,6 +2,7 @@ package com.example.ssumeet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
 import com.example.ssumeet.fragment.PostFragment;
@@ -24,11 +26,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -40,13 +45,19 @@ public class MainPage extends AppCompatActivity {
     private MainPage.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private FloatingActionButton makeRoomBtn;
+    private FloatingActionButton ranChatBtn;
+    private FloatingActionButton p2pChatBtn;
+    private FloatingActionButton menuBtn;
+
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,17 +89,18 @@ public class MainPage extends AppCompatActivity {
 
         sendRegistrationToServer();
 
+        ranChatBtn = findViewById(R.id.ranChatBtn);
+        ranChatBtn.hide();
+        ranChatBtn.setOnClickListener(v ->  {
+            RandomChatting();
+        });
+
 
         makeRoomBtn = findViewById(R.id.makeRoomBtn);
         //makeRoomBtn.setVisibility(View.INVISIBLE);
         makeRoomBtn.hide();
-        makeRoomBtn.setOnClickListener( new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), SelectUserActivity.class));
-            }
-        });
+        makeRoomBtn.setOnClickListener(v ->
+                startActivity(new Intent(v.getContext(), SelectUserActivity.class)));
 
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
@@ -112,6 +124,39 @@ public class MainPage extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void RandomChatting() {
+
+        String myUid = user.getUid();
+
+        FirebaseFirestore userdb = FirebaseFirestore.getInstance();
+        userdb.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            int i = 0;
+            String[] userUid;
+            int size;
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                size = task.getResult().size();
+                userUid = new String[size];
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Log.d("superdroid", document.getId() + " => " + document.getData());
+                        userUid[i++] = document.getId();
+                    }
+                } else {
+                    Log.d("superdroid", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra("toUid", user.getUid());
+        startActivity(intent);
+
     }
 
 
