@@ -18,8 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
-import com.example.ssumeet.fragment.PostFragment;
-import com.example.ssumeet.fragment.ProfileFragment;
+import com.example.ssumeet.fragment.HomeFragment;
 import com.example.ssumeet.fragment.UserListFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -228,14 +227,13 @@ public class MainPage extends AppCompatActivity {
             switch (position) {
                 case 0: return new UserListFragment();
                 case 1: return new ChatRoomFragment();
-                case 2: return new PostFragment();
-                default: return new ProfileFragment();//UserFragment();
+                default: return new HomeFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
     }
 }
