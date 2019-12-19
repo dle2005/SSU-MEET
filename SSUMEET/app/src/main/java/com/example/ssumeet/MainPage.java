@@ -50,9 +50,6 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        op_profilepage = (ImageButton)findViewById(R.id.op_profilepage);
-        op_profilepage.setOnClickListener(this);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new MainPage.SectionsPagerAdapter(getSupportFragmentManager());
@@ -117,15 +114,6 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
             });
         }
     }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.op_profilepage:
-                Intent intent = new Intent(getApplicationContext(), ProfilePageBU.class);
-                startActivity(intent);
-                break;
-        }
-    }
 
     void sendRegistrationToServer() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -159,7 +147,7 @@ public class MainPage extends AppCompatActivity implements  View.OnClickListener
 
                 return true;
 
-            case R.id.action_profile:
+            case R.id.action_xprofile:
                 intent = new Intent(this, ProfilePage.class);
                 this.startActivity(intent);
                 this.finish();
