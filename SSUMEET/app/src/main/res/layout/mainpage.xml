@@ -45,8 +45,9 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_above="@+id/tabs"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.tabs.TabLayout
@@ -119,10 +120,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="70dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="70dp"
         android:src="@android:drawable/ic_input_add"
         app:fabSize="normal" />
+
+    <TextView
+        android:id="@+id/ranChatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="랜덤채팅"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="250dp"
+        android:layout_marginRight="100dp"/>
+
+    <TextView
+        android:id="@+id/p2pChatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이성매칭"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="330dp"
+        android:layout_marginRight="100dp"/>
+
+    <TextView
+        android:id="@+id/makeRoomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="단체톡방"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="170dp"
+        android:layout_marginRight="100dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
