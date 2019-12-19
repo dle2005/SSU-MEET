@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 import android.content.Context;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.ssumeet.R;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -26,19 +27,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ReadContentsView extends LinearLayout {
+public class ReadContentsVIew extends LinearLayout {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<SimpleExoPlayer> playerArrayList = new ArrayList<>();
     private int moreIndex = -1;
 
-    public ReadContentsView(Context context) {
+    public ReadContentsVIew(Context context) {
         super(context);
         this.context = context;
         initView();
     }
 
-    public ReadContentsView(Context context, @Nullable AttributeSet attributeSet) {
+    public ReadContentsVIew(Context context, @Nullable AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
         initView();
@@ -48,7 +49,7 @@ public class ReadContentsView extends LinearLayout {
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
         layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.post, this, true);
+        layoutInflater.inflate(R.layout.view_post, this, true);
     }
 
     public void setMoreIndex(int moreIndex){

@@ -1,11 +1,10 @@
-package com.example.ssumeet;
+package com.example.ssumeet.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,16 +14,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.ssumeet.R;
 import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
-import com.example.ssumeet.fragment.HomeFragment;
 import com.example.ssumeet.fragment.UserListFragment;
+import com.example.ssumeet.post.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;

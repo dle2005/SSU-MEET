@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.main;
 
 public class ProfileInfo {
     private String name;

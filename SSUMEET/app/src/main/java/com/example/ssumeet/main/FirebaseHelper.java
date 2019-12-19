@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.main;
 
 import android.app.Activity;
 import android.util.Patterns;
@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.ssumeet.post.OnPostListener;
+import com.example.ssumeet.post.PostInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;

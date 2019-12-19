@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.ssumeet.R;
 
 public class ContentsItemView extends LinearLayout {
     private ImageView imageView;
