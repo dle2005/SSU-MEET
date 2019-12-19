@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.ActionBar;
@@ -13,14 +15,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.ssumeet.R;
 import com.example.ssumeet.fragment.ChatFragment;
 import com.example.ssumeet.fragment.UserListInRoomFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Map;
 
 
 public class ChatActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ChatFragment chatFragment;
     private UserListInRoomFragment userListInRoomFragment = null;
-    private FirebaseFirestore firestore=null;
+    private FirebaseFirestore firestore=FirebaseFirestore.getInstance();;
+    String roomID;
+    private String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +45,8 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
 
         String toUid = getIntent().getStringExtra("toUid");
-        String roomID;
-        boolean checkRandom = getIntent().getBooleanExtra("checkRandom",false);
-        if(checkRandom) {
-            roomID = getIntent().getStringExtra("roomID");//firestore.collection("rooms").document().getId();
-        }
-        else {
-            roomID = getIntent().getStringExtra("roomID");
-        }
+        roomID = getIntent().getStringExtra("roomID");
+
 
 
 
