@@ -1,12 +1,13 @@
 package com.example.ssumeet.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ssumeet.MainPage;
 import com.example.ssumeet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;

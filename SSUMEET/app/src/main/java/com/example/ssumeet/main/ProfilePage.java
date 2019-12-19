@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.ssumeet.MainPage;
 import com.example.ssumeet.R;
 import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ProfileModel;

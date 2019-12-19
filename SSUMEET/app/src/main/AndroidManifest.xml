@@ -11,22 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PostPage"></activity>
-        <activity android:name=".ProfilePage" />
-        <activity android:name=".fragment.PostFragment" />
-        <activity android:name=".Post" />
-        <activity android:name=".WritePost" />
-        <activity android:name=".Gallery" />
-        <activity android:name=".ResetPwPage" />
+        <activity android:name=".post.PostActivity"></activity>
+        <activity android:name=".main.ProfilePage" />
+        <activity android:name=".post.PostActivity"
+            tools:ignore="DuplicateActivity" />
+        <activity android:name=".post.WritePostActivity" />
+        <activity android:name=".main.GalleryActivity" />
+        <activity android:name=".main.ResetPwPage" />
         <activity android:name=".MainPage" />
-        <activity android:name=".RegisterPage" />
-        <activity android:name=".LoginPage"/>
+        <activity android:name=".main.RegisterPage" />
+        <activity android:name=".main.LoginPage"/>
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".chat.SelectUserActivity" />
-        <activity android:name=".UserPWActivity" />
+        <activity android:name=".main.UserPWActivity" />
         <activity android:name=".photoview.ViewPagerActivity" />
         <activity
-            android:name=".StartingPage"
+            android:name=".main.StartingPage"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
