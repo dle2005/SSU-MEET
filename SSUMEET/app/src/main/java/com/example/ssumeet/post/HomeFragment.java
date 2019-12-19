@@ -1,4 +1,4 @@
-package com.example.ssumeet.fragment;
+package com.example.ssumeet.post;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ssumeet.HomeAdapter;
-import com.example.ssumeet.OnPostListener;
-import com.example.ssumeet.PostInfo;
 import com.example.ssumeet.R;
-import com.example.ssumeet.WritePost;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -132,7 +128,7 @@ public class HomeFragment extends Fragment {
                     break;
                 */
                 case R.id.floatingActionButton:
-                    myStartActivity(WritePost.class);
+                    myStartActivity(WritePostActivity.class);
                     break;
             }
         }

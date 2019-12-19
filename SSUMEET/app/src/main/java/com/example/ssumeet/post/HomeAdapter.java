@@ -1,8 +1,7 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ssumeet.R;
+import com.example.ssumeet.FirebaseHelper;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.util.ArrayList;
@@ -59,8 +60,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, Post.class);
-                Intent postInfo = intent.putExtra("postInfo", (Parcelable) mDataset.get(mainViewHolder.getAdapterPosition()));
+                Intent intent = new Intent(activity, PostActivity.class);
+                intent.putExtra("postInfo", mDataset.get(mainViewHolder.getAdapterPosition()));
                 activity.startActivity(intent);
             }
         });
@@ -83,7 +84,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         PostInfo postInfo = mDataset.get(position);
         titleTextView.setText(postInfo.getTitle());
 
-        ReadContentsView readContentsVIew = cardView.findViewById(R.id.readContentsView);
+        ReadContentsVIew readContentsVIew = cardView.findViewById(R.id.readContentsView);
         LinearLayout contentsLayout = cardView.findViewById(R.id.contentsLayout);
 
         if (contentsLayout.getTag() == null || !contentsLayout.getTag().equals(postInfo)) {
@@ -112,7 +113,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.modify:
-                        myStartActivity(WritePost.class, mDataset.get(position));
+                        myStartActivity(WritePostActivity.class, mDataset.get(position));
                         return true;
                     case R.id.delete:
                         firebaseHelper.storageDelete(mDataset.get(position));
@@ -130,7 +131,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
 
     private void myStartActivity(Class c, PostInfo postInfo) {
         Intent intent = new Intent(activity, c);
-        intent.putExtra("postInfo", (Parcelable) postInfo);
+        intent.putExtra("postInfo", postInfo);
         activity.startActivity(intent);
     }
 

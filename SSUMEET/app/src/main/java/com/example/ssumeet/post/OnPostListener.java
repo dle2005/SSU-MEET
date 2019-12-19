@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 public interface OnPostListener {
     void onDelete(PostInfo postInfo);

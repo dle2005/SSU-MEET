@@ -1,4 +1,4 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,20 +8,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.ssumeet.R;
+import com.example.ssumeet.FirebaseHelper;
 
-import java.io.Serializable;
-
-public class Post extends AppCompatActivity {
+public class PostActivity extends BasicActivity {
     private PostInfo postInfo;
     private FirebaseHelper firebaseHelper;
-    private ReadContentsView readContentsVIew;
+    private ReadContentsVIew readContentsVIew;
     private LinearLayout contentsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.post);
+        setContentView(R.layout.activity_post);
 
         postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");
         contentsLayout = findViewById(R.id.contentsLayout);
@@ -59,7 +58,7 @@ public class Post extends AppCompatActivity {
                 firebaseHelper.storageDelete(postInfo);
                 return true;
             case R.id.modify:
-                myStartActivity(WritePost.class, postInfo);
+                myStartActivity(WritePostActivity.class, postInfo);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -84,7 +83,7 @@ public class Post extends AppCompatActivity {
 
     private void myStartActivity(Class c, PostInfo postInfo) {
         Intent intent = new Intent(this, c);
-        intent.putExtra("postInfo", (Serializable) postInfo);
+        intent.putExtra("postInfo", postInfo);
         startActivityForResult(intent, 0);
     }
 }

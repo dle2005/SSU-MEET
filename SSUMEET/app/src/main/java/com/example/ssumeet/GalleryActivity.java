@@ -16,24 +16,26 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ssumeet.post.BasicActivity;
+
 import java.util.ArrayList;
 
-public class Gallery extends BasicActivity {
+public class GalleryActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.gallery);
 
-        if (ContextCompat.checkSelfPermission(Gallery.this,
+        if (ContextCompat.checkSelfPermission(GalleryActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(Gallery.this,
+            ActivityCompat.requestPermissions(GalleryActivity.this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     1);
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Gallery.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(GalleryActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
             } else {
-                startToast(Gallery.this, getResources().getString(R.string.please_grant_permission));
+                startToast(GalleryActivity.this, getResources().getString(R.string.please_grant_permission));
             }
         } else {
             recyclerInit();
@@ -47,7 +49,7 @@ public class Gallery extends BasicActivity {
                     recyclerInit();
                 } else {
                     finish();
-                    startToast(Gallery.this, getResources().getString(R.string.please_grant_permission));
+                    startToast(GalleryActivity.this, getResources().getString(R.string.please_grant_permission));
                 }
             }
         }

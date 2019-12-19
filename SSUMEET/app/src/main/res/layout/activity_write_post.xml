@@ -4,10 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <include
+        layout="@layout/view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,14 +40,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/contentsEditText"
+                    <include
+                        layout="@layout/view_contents_edit_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:gravity="top"
-                        android:hint="내용"
-                        android:inputType="textMultiLine" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -53,14 +55,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/image_btn"
+                    android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="이미지" />
 
                 <Button
-                    android:id="@+id/video_btn"
+                    android:id="@+id/video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -68,7 +70,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/insert_btn"
+                android:id="@+id/check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="확인" />
@@ -121,21 +123,11 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/loaderLyaout"
+    <include
+        layout="@layout/view_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A34A4A4A"
-        android:clickable="true">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-
-    </RelativeLayout>
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

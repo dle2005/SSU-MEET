@@ -1,11 +1,12 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostInfo {
+public class PostInfo implements Serializable {
     private String title;
     private ArrayList<String> contents;
     private ArrayList<String> formats;
@@ -13,8 +14,14 @@ public class PostInfo {
     private Date createdAt;
     private String id;
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id) {};
-
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id){
+        this.title = title;
+        this.contents = contents;
+        this.formats = formats;
+        this.publisher = publisher;
+        this.createdAt = createdAt;
+        this.id = id;
+    }
 
     public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt){
         this.title = title;
@@ -33,7 +40,6 @@ public class PostInfo {
         docData.put("createdAt",createdAt);
         return  docData;
     }
-
 
     public String getTitle(){
         return this.title;

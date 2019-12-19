@@ -20,14 +20,16 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
-import com.example.ssumeet.fragment.ProfileFragment;
 import com.example.ssumeet.fragment.UserListFragment;
+import com.example.ssumeet.post.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,8 +57,10 @@ public class MainPage extends AppCompatActivity {
     private boolean menuClick = false;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+    private DatabaseReference mUser = FirebaseDatabase.getInstance().getReference();
     String[] userUids;
+    String myInterest;
+    String[] userInterests;
     int size;
 
     @Override
@@ -67,7 +71,7 @@ public class MainPage extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getUsersUid();
+        getUsersUidAndInterest();
         mSectionsPagerAdapter = new MainPage.SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -162,6 +166,23 @@ public class MainPage extends AppCompatActivity {
         });
 
         p2pChatBtn.setOnClickListener(v -> {
+            Random ran = new Random();
+            String[] toUid = new String[size];
+            String myUid = user.getUid();
+            int j = 0;
+
+            for(int i = 1; i <= size; i++) {
+                if(myInterest.equals(userInterests[i]))
+                {
+                    if(myUid.equals(userUids[i])) continue;
+                    else toUid[j++] = userUids[i];
+                }
+            }
+
+            String matchUid = toUid[ran.nextInt(j)];
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("toUid", matchUid);
+            startActivity(intent);
 
         });
 
@@ -192,10 +213,10 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
-    private void getUsersUid() {
+    private void getUsersUidAndInterest() {
 
-        FirebaseFirestore userdb = FirebaseFirestore.getInstance();
-        userdb.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore getUserUid = FirebaseFirestore.getInstance();
+        getUserUid.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -203,13 +224,21 @@ public class MainPage extends AppCompatActivity {
                 int i = 0;
                 size = task.getResult().size();
                 userUids = new String[size];
+                userInterests = new String[size];
 
                 Log.d("superdroid", String.valueOf(task.getResult().size()));
 
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d("superdroid", document.getId() + " => " + document.getData());
-                        userUids[i++] = document.getId();
+                        userUids[i] = document.getId();
+                        userInterests[i] = document.getString("interest");
+
+
+                        if(document.getId() == user.getUid())
+                            myInterest = userInterests[i];
+                        i++;
+
 
                     }
                 } else {
@@ -290,7 +319,7 @@ public class MainPage extends AppCompatActivity {
             switch (position) {
                 case 0: return new UserListFragment();
                 case 1: return new ChatRoomFragment();
-                default: return new ProfileFragment();//new HomeFragment();
+                default: return new HomeFragment();
             }
         }
 

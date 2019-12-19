@@ -1,13 +1,9 @@
-package com.example.ssumeet;
+package com.example.ssumeet.post;
 
 import android.app.Activity;
-import android.util.Patterns;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.ssumeet.post.OnPostListener;
-import com.example.ssumeet.post.PostInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,6 +11,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import static com.example.ssumeet.post.Util.isStorageUrl;
+import static com.example.ssumeet.post.Util.showToast;
+import static com.example.ssumeet.post.Util.storageUrlToName;
 
 public class FirebaseHelper {
     private Activity activity;
@@ -49,7 +49,7 @@ public class FirebaseHelper {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        startToast(activity, "Error");
+                        showToast(activity, "Error");
                     }
                 });
             }
@@ -65,26 +65,17 @@ public class FirebaseHelper {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            startToast(activity, "게시글을 삭제하였습니다.");
+                            showToast(activity, "게시글을 삭제하였습니다.");
                             onPostListener.onDelete(postInfo);
+                            //postsUpdate();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            startToast(activity, "게시글을 삭제하지 못하였습니다.");
+                            showToast(activity, "게시글을 삭제하지 못하였습니다.");
                         }
                     });
         }
     }
-    public static void  startToast(Activity activity, String msg) {
-        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-    }
-    public static boolean isStorageUrl(String url){
-        return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-3e2c2.appspot.com/o/post");
-    }
-    public static String storageUrlToName(String url){
-        return url.split("\\?")[0].split("%2F")[url.split("\\?")[0].split("%2F").length - 1];
-    }
-
 }

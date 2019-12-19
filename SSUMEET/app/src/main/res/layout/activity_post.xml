@@ -13,12 +13,11 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <com.example.ssumeet.ContentsItemView
+            <com.example.ssumeet.post.ReadContentsVIew
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/readContentsView">
+                android:id="@+id/readContentsView"/>
 
-            </com.example.ssumeet.ContentsItemView>
         </LinearLayout>
     </ScrollView>
 
