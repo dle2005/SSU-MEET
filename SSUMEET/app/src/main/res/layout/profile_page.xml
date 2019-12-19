@@ -137,12 +137,13 @@
             android:text="상태 메세지"
             android:textColor="@color/deepPink"
             android:textSize="20dp"/>
+
         <EditText
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
