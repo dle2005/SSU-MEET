@@ -111,6 +111,7 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     Button.OnClickListener saveBtnClickListener = new View.OnClickListener() {
+
         public void onClick(final View view) {
             if (!validateForm()) return;
             ProfileModel.setName(user_name.getText().toString());
@@ -212,19 +213,12 @@ public class ProfilePage extends AppCompatActivity {
 
         String userName = user_name.getText().toString();
         if (TextUtils.isEmpty(userName)) {
-            user_name.setError("Required.");
+            user_name.setError("이름을 입력해주세요.");
             valid = false;
         } else {
             user_name.setError(null);
         }
 
-        String userMsg = user_msg.getText().toString();
-        if (TextUtils.isEmpty(userMsg)) {
-            user_msg.setError("Required.");
-            valid = false;
-        } else {
-            user_msg.setError(null);
-        }
         Util9.hideKeyboard(ProfilePage.this);
 
         return valid;
