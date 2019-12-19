@@ -14,14 +14,16 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.example.ssumeet.R;
 import com.example.ssumeet.ContentsItemView;
 import com.example.ssumeet.GalleryActivity;
-import com.example.ssumeet.R;
+import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
@@ -276,7 +278,18 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (successCount == 0) {
-                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(uid);
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        ProfileModel = documentSnapshot.toObject(ProfileModel.class);
+                        user_name = ProfileModel.getName();
+                    }
+                });
+                Log.d("publisher", user_name);
+                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user_name, date));
             }        } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
         }
