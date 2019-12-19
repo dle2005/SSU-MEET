@@ -149,7 +149,7 @@ public class MainPage extends AppCompatActivity {
         ranChatBtn.setOnClickListener(v ->  {
             Random ran = new Random();
             String myUid = user.getUid();
-
+            boolean checkRandom = true;
             String toUid = userUids[ran.nextInt(size)];
 
             for(;;) {
@@ -162,6 +162,7 @@ public class MainPage extends AppCompatActivity {
 
             Intent intent = new Intent(this, ChatActivity.class);
             intent.putExtra("toUid", toUid);
+            intent.putExtra("checkRandom", checkRandom);
             startActivity(intent);
         });
 
@@ -169,6 +170,8 @@ public class MainPage extends AppCompatActivity {
             Random ran = new Random();
             String[] toUid = new String[size];
             String myUid = user.getUid();
+
+
             int j = 0;
 
             for(int i = 1; i <= size; i++) {

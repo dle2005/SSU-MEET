@@ -13,12 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.ssumeet.R;
 import com.example.ssumeet.fragment.ChatFragment;
 import com.example.ssumeet.fragment.UserListInRoomFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class ChatActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ChatFragment chatFragment;
     private UserListInRoomFragment userListInRoomFragment = null;
+    private FirebaseFirestore firestore=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,17 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
 
         String toUid = getIntent().getStringExtra("toUid");
-        final String roomID = getIntent().getStringExtra("roomID");
+        String roomID;
+        boolean checkRandom = getIntent().getBooleanExtra("checkRandom",false);
+        if(checkRandom) {
+            roomID = getIntent().getStringExtra("roomID");//firestore.collection("rooms").document().getId();
+        }
+        else {
+            roomID = getIntent().getStringExtra("roomID");
+        }
+
+
+
         String roomTitle = getIntent().getStringExtra("roomTitle");
         if (roomTitle!=null) {
             actionBar.setTitle(roomTitle);
@@ -81,5 +93,7 @@ public class ChatActivity extends AppCompatActivity {
         chatFragment.backPressed();
         finish();;
     }
+
+
 
 }
