@@ -52,16 +52,14 @@
             android:id="@+id/your_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="구본휘"
             android:textSize="30dp"
             android:layout_marginTop="10dp" />
 
         <TextView
             android:background="@drawable/box_contain"
             android:layout_marginTop="15dp"
-            android:id="@+id/your_think"
+            android:id="@+id/your_status"
             android:layout_width="150dp"
-            android:text="기부니 안 좋아"
             android:textSize="20dp"
             android:gravity="center"
             android:paddingTop="5dp"
@@ -91,7 +89,6 @@
             <TextView
                 android:id="@+id/your_age"
                 android:layout_width="100dp"
-                android:text="25"
                 android:textSize="25dp"
                 android:gravity="center"
                 android:layout_height="wrap_content" />
@@ -111,9 +108,8 @@
                     android:textColor="@color/deepPink"
                     android:textSize="25dp"/>
                 <TextView
-                    android:id="@+id/your_major"
+                    android:id="@+id/your_subject"
                     android:layout_width="100dp"
-                    android:text="컴퓨터"
                     android:textSize="25dp"
                     android:gravity="center"
                     android:layout_height="wrap_content" />
@@ -134,7 +130,6 @@
                 <TextView
                     android:id="@+id/your_interest"
                     android:layout_width="100dp"
-                    android:text="영화"
                     android:textSize="25dp"
                     android:gravity="center"
                     android:layout_height="wrap_content" />
@@ -146,6 +141,7 @@
             android:orientation="vertical"
             android:layout_gravity="center">
             <Button
+                android:id="@+id/addFriendBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
