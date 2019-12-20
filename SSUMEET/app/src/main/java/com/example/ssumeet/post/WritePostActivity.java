@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,9 +16,9 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.example.ssumeet.R;
 import com.example.ssumeet.ContentsItemView;
 import com.example.ssumeet.GalleryActivity;
+import com.example.ssumeet.R;
 import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +51,7 @@ import static com.example.ssumeet.post.Util.storageUrlToName;
 
 public class WritePostActivity extends BasicActivity {
     private static final String TAG = "WritePostActivity";
+    private static final int PICK_FROM_ALBUM = 1;
     private FirebaseUser user;
     private StorageReference storageRef;
     private ArrayList<String> pathList = new ArrayList<>();
@@ -77,7 +80,7 @@ public class WritePostActivity extends BasicActivity {
         titleEditText = findViewById(R.id.titleEditText);
 
         findViewById(R.id.check).setOnClickListener(onClickListener);
-        findViewById(R.id.image).setOnClickListener(onClickListener);
+        findViewById(R.id.image).setOnClickListener(changeImageBtnClickListener);
         findViewById(R.id.video).setOnClickListener(onClickListener);
         findViewById(R.id.imageModify).setOnClickListener(onClickListener);
         findViewById(R.id.videoModify).setOnClickListener(onClickListener);
@@ -144,16 +147,19 @@ public class WritePostActivity extends BasicActivity {
                 break;
         }
     }
-
+    Button.OnClickListener changeImageBtnClickListener = new View.OnClickListener() {
+        public void onClick(final View view) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            startActivityForResult(intent, PICK_FROM_ALBUM);
+        }
+    };
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.check:
                     storageUpload();
-                    break;
-                case R.id.image:
-                    myStartActivity(GalleryActivity.class, GALLERY_IMAGE, 0);
                     break;
                 case R.id.video:
                     myStartActivity(GalleryActivity.class, GALLERY_VIDEO, 0);

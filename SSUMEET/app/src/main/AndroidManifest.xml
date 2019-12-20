@@ -16,7 +16,7 @@
         <activity android:name=".post.PostActivity"
             tools:ignore="DuplicateActivity" />
         <activity android:name=".post.WritePostActivity" />
-        <activity android:name=".GalleryActivity" />
+        <activity android:name=".GalleryActivity"/>
         <activity android:name=".ResetPwPage" />
         <activity android:name=".MainPage" />
         <activity android:name=".RegisterPage" />
