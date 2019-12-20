@@ -32,8 +32,9 @@ import javax.mail.SendFailedException;
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener, Dialog.OnCancelListener{
     public FirebaseAuth mAuth;
     String srand;
+    String input_pw, input_pwcheck;
     EditText pw, pwCheck;
-    ImageView setImage;
+    ImageView setImage, setImage2;
 
     LayoutInflater dialog;
     View dialogLayout;
@@ -81,6 +82,25 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         pw = (EditText)findViewById(R.id.pw);
         pwCheck = (EditText)findViewById(R.id.pwCheck);
         setImage = (ImageView)findViewById(R.id.setImage);
+        setImage2 = (ImageView) findViewById(R.id.setImage2);
+        checkNum = (EditText)findViewById(R.id.checkNum);
+
+        checkNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(checkNum.getText().toString().equals(srand)) {
+                    setImage2.setImageResource(R.drawable.check);
+                } else {
+                    setImage2.setImageResource(R.drawable.x);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         pwCheck.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,9 +109,9 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(pw.getText().toString().equals(pwCheck.getText().toString())) {
-                    setImage.setImageResource(R.drawable.back);
+                    setImage.setImageResource(R.drawable.check);
                 } else {
-                    setImage.setImageResource(R.drawable.back);
+                    setImage.setImageResource(R.drawable.x);
                 }
             }
             @Override
@@ -143,10 +163,12 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
 
     private void register() {
         String email = ((EditText)findViewById(R.id.id)).getText().toString();
-        email = email + "@ssu.ac.kr";
+        email = email + "@soongsil.ac.kr";
         String checkNum = ((EditText)findViewById(R.id.checkNum)).getText().toString();
+        input_pw = ((EditText)findViewById(R.id.pw)).getText().toString();
+        input_pwcheck = ((EditText)findViewById(R.id.pwCheck)).getText().toString();
         startToast(checkNum);
-        if(!pw.equals(pwCheck)) {
+        if(!input_pw.equals(input_pwcheck)) {
             startToast("비밀번호가 일치하지 않습니다.");
         }
         else if(!checkNum.equals(srand)){

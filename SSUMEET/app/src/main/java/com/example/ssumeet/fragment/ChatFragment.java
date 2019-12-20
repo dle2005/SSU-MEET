@@ -154,7 +154,6 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             roomID = getArguments().getString("roomID");
             toUid = getArguments().getString("toUid");
-            Log.d("debug", toUid);
         }
 
         firestore = FirebaseFirestore.getInstance();

@@ -76,11 +76,11 @@ public class LoginPage extends AppCompatActivity {
 
     private void signIN() {
         String email = ((EditText) findViewById(R.id.id)).getText().toString();
-        if (email.length() != 8) {
+        if (email.length() == 0) {
             startToast("학번을 다시 입력해주세요");
             return;
         }
-        email = email + "@ssu.ac.kr";
+        email = email + "@soongsil.ac.kr";
         String password = ((EditText) findViewById(R.id.pw)).getText().toString();
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -88,7 +88,7 @@ public class LoginPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            sharedPreferences.edit().putString("user_id", user_id.getText().toString() + "@ssu.ac.kr").commit();
+                            sharedPreferences.edit().putString("user_id", user_id.getText().toString() + "@soongsil.ac.kr").commit();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startToast("로그인에 성공하였습니다.");
                             Intent intent = new Intent(getApplicationContext(), MainPage.class);
