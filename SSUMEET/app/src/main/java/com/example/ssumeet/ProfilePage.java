@@ -37,6 +37,7 @@ public class ProfilePage extends AppCompatActivity {
     private static final int PICK_FROM_ALBUM = 1;
     private ImageView user_photo;
     private EditText user_name;
+    private EditText user_gender;
     private EditText user_age;
     private EditText user_subject;
     private EditText user_interest;
@@ -58,6 +59,7 @@ public class ProfilePage extends AppCompatActivity {
         user_subject = findViewById(R.id.subject);
         user_interest = findViewById(R.id.interest);
         user_photo = findViewById(R.id.profile_image);
+        user_gender = findViewById(R.id.gender);
 
 
         user_interest.setOnTouchListener(new View.OnTouchListener() {
@@ -65,6 +67,14 @@ public class ProfilePage extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
                     interest_dialog();
+                return false;
+            }
+        });
+        user_gender.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                    gender_dialog();
                 return false;
             }
         });
@@ -88,6 +98,7 @@ public class ProfilePage extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 ProfileModel = documentSnapshot.toObject(ProfileModel.class);
                 user_name.setText(ProfileModel.getName());
+                user_gender.setText(ProfileModel.getGender());
                 user_age.setText(ProfileModel.getAge());
                 user_subject.setText(ProfileModel.getSubject());
                 user_interest.setText(ProfileModel.getInterest());
@@ -115,6 +126,7 @@ public class ProfilePage extends AppCompatActivity {
         public void onClick(final View view) {
             if (!validateForm()) return;
             ProfileModel.setName(user_name.getText().toString());
+            ProfileModel.setGender(user_gender.getText().toString());
             ProfileModel.setAge(user_age.getText().toString());
             ProfileModel.setSubject(user_subject.getText().toString());
             ProfileModel.setInterest(user_interest.getText().toString());
@@ -183,7 +195,7 @@ public class ProfilePage extends AppCompatActivity {
         }
     };
 
-    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+    DialogInterface.OnClickListener interestdialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
@@ -197,10 +209,10 @@ public class ProfilePage extends AppCompatActivity {
                     user_interest.setText("운동");
                     break;
                 case 3:
-                    user_interest.setText("남자");
+                    user_interest.setText("영화");
                     break;
                 case 4:
-                    user_interest.setText("여자");
+                    user_interest.setText("독서");
                     break;
             }
         }
@@ -208,7 +220,30 @@ public class ProfilePage extends AppCompatActivity {
     private void interest_dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("관심사");
-        builder.setSingleChoiceItems(R.array.interest_dialog, 0, dialogListener);
+        builder.setSingleChoiceItems(R.array.interest_dialog, 0, interestdialogListener);
+        builder.setPositiveButton("확인", null);
+        builder.setNegativeButton("취소", null);
+        listDialog = builder.create();
+        listDialog.show();
+    }
+
+    DialogInterface.OnClickListener GenderdialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case 0:
+                    user_gender.setText("여자");
+                    break;
+                case 1:
+                    user_gender.setText("남자");
+                    break;
+            }
+        }
+    };
+    private void gender_dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("성별");
+        builder.setSingleChoiceItems(R.array.gender_dialog, 0, GenderdialogListener);
         builder.setPositiveButton("확인", null);
         builder.setNegativeButton("취소", null);
         listDialog = builder.create();

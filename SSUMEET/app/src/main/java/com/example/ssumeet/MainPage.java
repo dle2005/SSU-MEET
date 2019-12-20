@@ -63,6 +63,8 @@ public class MainPage extends AppCompatActivity {
     String[] userUids;
     String myInterest;
     String[] userInterests;
+    String myGender;
+    String[] userGender;
     int size;
     private ProfileModel ProfileModel;
 
@@ -88,7 +90,9 @@ public class MainPage extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getUsersUidAndInterest();
+
+        getUsersUidAndInterestAndGender();
+
         mSectionsPagerAdapter = new MainPage.SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -191,10 +195,9 @@ public class MainPage extends AppCompatActivity {
             int j = 0;
 
             for(int i = 0; i < size; i++) {
-                if(myInterest.equals(userInterests[i]))
+                if(!myInterest.equals(userInterests[i]) && !myGender.equals(userGender[i]) && myUid.equals(userUids[i]))
                 {
-                    if(myUid.equals(userUids[i])) continue;
-                    else toUid[j++] = userUids[i];
+                    toUid[j++] = userUids[i];
                 }
             }
 
@@ -232,7 +235,7 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
-    private void getUsersUidAndInterest() {
+    private void getUsersUidAndInterestAndGender() {
 
         FirebaseFirestore getUserUid = FirebaseFirestore.getInstance();
         getUserUid.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -244,6 +247,7 @@ public class MainPage extends AppCompatActivity {
                 size = task.getResult().size();
                 userUids = new String[size];
                 userInterests = new String[size];
+                userGender = new String[size];
 
                 Log.d("superdroid", String.valueOf(task.getResult().size()));
 
@@ -253,9 +257,11 @@ public class MainPage extends AppCompatActivity {
                         userUids[i] = document.getId();
                         userInterests[i] = document.getString("interest");
 
-
-                        if(document.getId().equals(user.getUid()))
+                        if(document.getId().equals(user.getUid())) {
                             myInterest = userInterests[i];
+                            myGender = userGender[i];
+                        }
+
                         i++;
 
 

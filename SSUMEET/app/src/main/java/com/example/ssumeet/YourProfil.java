@@ -39,6 +39,7 @@ public class YourProfil extends AppCompatActivity {
     Map<String, String> friends = new HashMap<>();
     String yourUid;
     String myUid;
+    String yourGender;
 
     ImageView yourImage;
     TextView yourName;
@@ -92,21 +93,37 @@ public class YourProfil extends AppCompatActivity {
     }
 
     Button.OnClickListener AddFriendBtn = v -> {
-        friends.put("uid", yourUid);
+        ProfileModel.setName(yourName.getText().toString());
+        ProfileModel.setGender(yourGender);
+        ProfileModel.setAge(yourAge.getText().toString());
+        ProfileModel.setSubject(yourSubject.getText().toString());
+        ProfileModel.setInterest(yourInterest.getText().toString());
+        ProfileModel.setStatusMsg(yourStatus.getText().toString());
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> city = new HashMap<>();
-        city.put("name", "Los Angeles");
-        city.put("state", "CA");
-        city.put("country", "USA");
+
 
         db.collection("users").document(myUid).collection("friends").document(yourUid)
-                .set(friends)
+                .set(ProfileModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("superdroid", "DocumentSnapshot successfully written!");
+                        Glide.with(YourProfil.this)
+                                .asBitmap()
+                                .load(userPhotoUri)
+                                .apply(new RequestOptions().override(150, 150))
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                        byte[] data = baos.toByteArray();
+                                        FirebaseStorage.getInstance().getReference().child("userPhoto/" + yourUid).putBytes(data);
+
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
