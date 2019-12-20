@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +21,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.ssumeet.model.ProfileModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
@@ -33,6 +37,8 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     public FirebaseAuth mAuth;
     String srand;
     String input_pw, input_pwcheck;
+    String email;
+
     EditText pw, pwCheck;
     ImageView setImage, setImage2;
 
@@ -85,6 +91,8 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         setImage2 = (ImageView) findViewById(R.id.setImage2);
         checkNum = (EditText)findViewById(R.id.checkNum);
 
+        emailAuth_number = findViewById(R.id.emailAuth_number);
+
         checkNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,7 +144,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         srand = Integer.toString(arand);
         String emailAddress = ((EditText) findViewById(R.id.id)).getText().toString();
         emailAddress = emailAddress + "@soongsil.ac.kr";
-
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .permitDiskReads()
                 .permitDiskWrites()
@@ -159,10 +166,11 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
+        emailAuth_number.setText(srand);
     }
 
     private void register() {
-        String email = ((EditText)findViewById(R.id.id)).getText().toString();
+        email = ((EditText)findViewById(R.id.id)).getText().toString();
         email = email + "@soongsil.ac.kr";
         String checkNum = ((EditText)findViewById(R.id.checkNum)).getText().toString();
         input_pw = ((EditText)findViewById(R.id.pw)).getText().toString();
@@ -183,9 +191,24 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
+                                final String uid = mAuth.getUid();
+                                ProfileModel userModel = new ProfileModel();
+                                userModel.setUid(uid);
+                                userModel.setUserid(email);
+                                //userModel.setFriendCount(0);
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("users").document(uid)
+                                        .set(userModel)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Intent  intent = new Intent(RegisterPage.this, LoginPage.class);
+                                                startActivity(intent);
+                                                Log.d(String.valueOf(R.string.app_name), "DocumentSnapshot added with ID: " + uid);
+                                            }
+                                        });
                                 startToast("회원가입에 성공하였습니다.");
-                                finish();
                             } else {
                                 if (task.getException() != null) {
                                     startToast(task.getException().toString());
@@ -200,6 +223,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         time_counter = (TextView) dialogLayout.findViewById(R.id.emailAuth_time_counter);
         emailAuth_number = (EditText) dialogLayout.findViewById(R.id.emailAuth_number);
         emailAuth_btn = (Button) dialogLayout.findViewById(R.id.emailAuth_btn);
+        emailAuth_number.setText(srand);
 
         countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
             @Override

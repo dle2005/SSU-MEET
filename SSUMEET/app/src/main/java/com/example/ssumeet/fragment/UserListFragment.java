@@ -42,6 +42,7 @@ public class UserListFragment extends Fragment {
         if (firestoreAdapter != null) {
             firestoreAdapter.startListening();
         }
+
     }
 
     @Override

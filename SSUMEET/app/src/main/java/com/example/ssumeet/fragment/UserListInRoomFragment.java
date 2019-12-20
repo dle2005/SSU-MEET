@@ -2,6 +2,7 @@ package com.example.ssumeet.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ssumeet.ProfilePage;
+import com.example.ssumeet.YourProfil;
+import com.example.ssumeet.chat.ChatActivity;
+import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.R;
 import com.example.ssumeet.chat.SelectUserActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -111,6 +117,21 @@ public class UserListInRoomFragment extends Fragment {
                         .apply(requestOptions)
                         .into(customViewHolder.user_photo);
             }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    String yourUid = userModels.get(position).getUid();
+                    //Util9.showMessage(getView().getContext(), userUid);
+                    Intent intent = new Intent(getView().getContext(), YourProfil.class);
+                    intent.putExtra("yourUid", yourUid);
+                    intent.putExtra("myUid", myUid);
+                    startActivity(intent);
+                }
+            });
+
         }
 
         @Override

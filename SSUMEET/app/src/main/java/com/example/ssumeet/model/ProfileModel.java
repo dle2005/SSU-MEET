@@ -1,5 +1,8 @@
 package com.example.ssumeet.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProfileModel {
     private String token;
     private String userid;
@@ -12,6 +15,8 @@ public class ProfileModel {
     private String photoUrl;
     private String chat_permission;
     private String ranchat_permission;
+    private Map<String, String> friendList = new HashMap<>();
+    private String friendCount;
 
     public ProfileModel(){
 
@@ -84,5 +89,8 @@ public class ProfileModel {
 
     public String getRanchat_permission() { return this.ranchat_permission; }
     public void setRanchat_permission(String ranchat_permission) { this.ranchat_permission = ranchat_permission; }
+
+    public String getFriendCount() { return  this.friendCount; }
+    //public void setFriendCount(int number) { this.friendCount = number; }
 
 }

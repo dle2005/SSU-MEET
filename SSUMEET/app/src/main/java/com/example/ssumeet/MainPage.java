@@ -64,7 +64,7 @@ public class MainPage extends AppCompatActivity {
     String myInterest;
     String[] userInterests;
     int size;
-    private com.example.ssumeet.model.ProfileModel ProfileModel;
+    private ProfileModel ProfileModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

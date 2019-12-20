@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginPage extends AppCompatActivity {
 
     private EditText user_id;
+    String email;
 
     SharedPreferences sharedPreferences;
 
@@ -59,7 +60,7 @@ public class LoginPage extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("ssumeet", Activity.MODE_PRIVATE);
         String id = sharedPreferences.getString("user_id", "");
         if (!"".equals(id)) {
-            user_id.setText(id.substring(0, 8));
+            user_id.setText(id);
         }
     }
 
@@ -75,7 +76,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     private void signIN() {
-        String email = ((EditText) findViewById(R.id.id)).getText().toString();
+        email = ((EditText) findViewById(R.id.id)).getText().toString();
         if (email.length() == 0) {
             startToast("학번을 다시 입력해주세요");
             return;
@@ -87,7 +88,7 @@ public class LoginPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            sharedPreferences.edit().putString("user_id", LoginPage.this.user_id.getText().toString() + "@soongsil.ac.kr").commit();
+                            sharedPreferences.edit().putString("user_id", extractIDFromEmail(email)).commit();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startToast("로그인에 성공하였습니다.");
                             Intent intent = new Intent(getApplicationContext(), MainPage.class);
@@ -99,6 +100,11 @@ public class LoginPage extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    String extractIDFromEmail(String email){
+        String[] parts = email.split("@");
+        return parts[0];
     }
 
 }

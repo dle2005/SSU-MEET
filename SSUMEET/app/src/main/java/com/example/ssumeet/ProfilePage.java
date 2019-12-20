@@ -42,7 +42,7 @@ public class ProfilePage extends AppCompatActivity {
     private EditText user_interest;
     private EditText user_msg;
 
-    private com.example.ssumeet.model.ProfileModel ProfileModel;
+    private ProfileModel ProfileModel;
     private Uri userPhotoUri;
 
     AlertDialog listDialog;
