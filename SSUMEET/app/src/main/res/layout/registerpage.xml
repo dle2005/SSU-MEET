@@ -91,9 +91,14 @@
         <EditText
             android:layout_marginLeft="15dp"
             android:id="@+id/checkNum"
-            android:layout_width="230dp"
+            android:layout_width="180dp"
             android:gravity="center"
+            android:inputType="numberPassword"
             android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/setImage2"/>
     </LinearLayout>
 
     <LinearLayout
@@ -114,6 +119,7 @@
             android:id="@+id/pw"
             android:layout_width="230dp"
             android:gravity="center"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
@@ -121,10 +127,11 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/pwCheck"
-            android:layout_width="230dp"
+            android:layout_width="180dp"
             android:layout_marginLeft="120dp"
             android:hint="비밀번호 확인"
             android:gravity="center"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"/>
         <ImageView
             android:layout_width="50dp"
