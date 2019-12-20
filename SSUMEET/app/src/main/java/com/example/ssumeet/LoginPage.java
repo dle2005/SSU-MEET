@@ -83,6 +83,7 @@ public class LoginPage extends AppCompatActivity {
         email = email + "@soongsil.ac.kr";
         String password = ((EditText) findViewById(R.id.pw)).getText().toString();
 
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
