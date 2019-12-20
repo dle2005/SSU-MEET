@@ -34,7 +34,7 @@
     android:layout_height="520dp"
     android:orientation="vertical"
     android:background="@drawable/box_contain"
-    android:backgroundTint="#FFA500">
+    android:backgroundTint="#DCDCDC">
     <LinearLayout
         android:layout_marginTop="30dp"
         android:paddingTop="20dp"
