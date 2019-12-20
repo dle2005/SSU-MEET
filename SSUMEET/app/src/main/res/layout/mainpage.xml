@@ -24,12 +24,6 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name">
 
-            <ImageButton
-                android:id="@+id/op_profilepage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:icon="@drawable/setting" />
         </androidx.appcompat.widget.Toolbar>
 
 
