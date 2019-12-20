@@ -21,8 +21,10 @@ import com.example.ssumeet.chat.ChatActivity;
 import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
 import com.example.ssumeet.fragment.UserListFragment;
+import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.post.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -62,36 +64,27 @@ public class MainPage extends AppCompatActivity {
     String myInterest;
     String[] userInterests;
     int size;
+    private com.example.ssumeet.model.ProfileModel ProfileModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if(user == null) {
-            Intent intent = new Intent(getApplicationContext(), RegisterPage.class);
-            startActivity(intent);
-        } else {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference documentReference = db.collection("users").document(user.getUid());
-            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if(document != null) {
-                            if(document.exists()) {
-                            } else {
-                                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
-                                startActivity(intent);
-                            }
-                        }
-                    }
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(uid);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                ProfileModel = documentSnapshot.toObject(ProfileModel.class);
+                if(ProfileModel.getName() == null) {
+                    Intent intent1 = new Intent(getApplicationContext(), ProfilePage.class);
+                    startActivity(intent1);
                 }
-            });
-        }
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
