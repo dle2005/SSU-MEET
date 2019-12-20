@@ -178,7 +178,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             startToast("이메일을 입력해주세요.");
         }
         else {
-            mAuth.createUserWithEmailAndPassword(email, String.valueOf(pw))
+            mAuth.createUserWithEmailAndPassword(email, input_pw)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

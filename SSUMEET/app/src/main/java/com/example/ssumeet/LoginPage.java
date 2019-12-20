@@ -82,14 +82,12 @@ public class LoginPage extends AppCompatActivity {
         }
         email = email + "@soongsil.ac.kr";
         String password = ((EditText) findViewById(R.id.pw)).getText().toString();
-
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            sharedPreferences.edit().putString("user_id", user_id.getText().toString() + "@soongsil.ac.kr").commit();
+                            sharedPreferences.edit().putString("user_id", LoginPage.this.user_id.getText().toString() + "@soongsil.ac.kr").commit();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startToast("로그인에 성공하였습니다.");
                             Intent intent = new Intent(getApplicationContext(), MainPage.class);
