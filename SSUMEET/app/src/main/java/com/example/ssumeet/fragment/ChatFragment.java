@@ -42,7 +42,6 @@ import com.example.ssumeet.R;
 import com.example.ssumeet.common.Util9;
 import com.example.ssumeet.model.ChatModel;
 import com.example.ssumeet.model.Message;
-import com.example.ssumeet.model.NotificationModel;
 import com.example.ssumeet.model.ProfileModel;
 import com.example.ssumeet.photoview.ViewPagerActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -373,40 +372,6 @@ public class ChatFragment extends Fragment {
 
         });
     };
-
-    void sendGCM(){
-        Gson gson = new Gson();
-        NotificationModel notificationModel = new NotificationModel();
-        notificationModel.notification.title = userList.get(myUid).getName();
-        notificationModel.notification.body = msg_input.getText().toString();
-        notificationModel.data.title = userList.get(myUid).getName();
-        notificationModel.data.body = msg_input.getText().toString();
-
-        for ( Map.Entry<String, ProfileModel> elem : userList.entrySet() ){
-            if (myUid.equals(elem.getValue().getUid())) continue;
-            notificationModel.to = elem.getValue().getToken();
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"), gson.toJson(notificationModel));
-            Request request = new Request.Builder()
-                    .header("Content-Type", "application/json")
-                    .addHeader("Authorization", "key=")
-                    .url("https://fcm.googleapis.com/fcm/send")
-                    .post(requestBody)
-                    .build();
-
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.newCall(request).enqueue(new com.squareup.okhttp.Callback() {
-                @Override
-                public void onFailure(Request request, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(com.squareup.okhttp.Response response) throws IOException {
-
-                }
-            });
-        }
-    }
 
     // choose image
     Button.OnClickListener imageBtnClickListener = new View.OnClickListener() {

@@ -64,8 +64,10 @@ public class SelectUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_user);
 
         roomID = getIntent().getStringExtra("roomID");
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        firestoreAdapter = new RecyclerViewAdapter(FirebaseFirestore.getInstance().collection("users").orderBy("name"));
+        firestoreAdapter = new RecyclerViewAdapter(FirebaseFirestore.getInstance().collection("users")
+                .document(myUid).collection("friends"));
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager( new LinearLayoutManager((this)));
         recyclerView.setAdapter(firestoreAdapter);

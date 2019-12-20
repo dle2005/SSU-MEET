@@ -25,12 +25,12 @@ public class StartingPage extends AppCompatActivity {
         StartingPage.this.startActivity(mainIntent);*/
 
 
-        //FirebaseAuth.getInstance().signOut();
+        /*//FirebaseAuth.getInstance().signOut();
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        firestore.setFirestoreSettings(settings);
+        firestore.setFirestoreSettings(settings);*/
 
         new Handler().postDelayed(new Runnable(){
             @Override

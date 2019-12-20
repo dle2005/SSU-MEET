@@ -1,4 +1,4 @@
-package com.example.ssumeet.post;
+package com.example.ssumeet.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ssumeet.R;
+import com.example.ssumeet.post.HomeAdapter;
+import com.example.ssumeet.post.OnPostListener;
+import com.example.ssumeet.post.PostInfo;
+import com.example.ssumeet.post.WritePostActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;

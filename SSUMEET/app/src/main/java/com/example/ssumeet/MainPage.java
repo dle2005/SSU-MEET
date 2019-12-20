@@ -22,7 +22,7 @@ import com.example.ssumeet.chat.SelectUserActivity;
 import com.example.ssumeet.fragment.ChatRoomFragment;
 import com.example.ssumeet.fragment.UserListFragment;
 import com.example.ssumeet.model.ProfileModel;
-import com.example.ssumeet.post.HomeFragment;
+import com.example.ssumeet.fragment.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -194,10 +194,11 @@ public class MainPage extends AppCompatActivity {
 
             int j = 0;
 
-            for(int i = 0; i < size; i++) {
-                if(!myInterest.equals(userInterests[i]) && !myGender.equals(userGender[i]) && myUid.equals(userUids[i]))
+            for(int i = 0; i < size - 1; i++) {
+                if(myInterest.equals(userInterests[i]) && myGender.equals(userGender[i]))
                 {
-                    toUid[j++] = userUids[i];
+                    if(myUid.equals(userUids[i]))
+                        toUid[j++] = userUids[i];
                 }
             }
 
@@ -256,6 +257,7 @@ public class MainPage extends AppCompatActivity {
                         Log.d("superdroid", document.getId() + " => " + document.getData());
                         userUids[i] = document.getId();
                         userInterests[i] = document.getString("interest");
+                        userGender[i] = document.getString("gender");
 
                         if(document.getId().equals(user.getUid())) {
                             myInterest = userInterests[i];
