@@ -29,12 +29,13 @@
 <LinearLayout
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginTop="70dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
     android:layout_width="match_parent"
-    android:layout_height="520dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/box_contain"
-    android:backgroundTint="#DCDCDC">
+    android:backgroundTint="#D3D3D3">
     <LinearLayout
         android:layout_marginTop="30dp"
         android:paddingTop="20dp"

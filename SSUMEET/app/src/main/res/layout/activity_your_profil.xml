@@ -21,7 +21,7 @@
 </LinearLayout>
     <LinearLayout
         android:background="@drawable/box_contain"
-        android:backgroundTint="#F08080"
+        android:backgroundTint="#CFD8DC"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
@@ -139,33 +139,34 @@
                     android:gravity="center"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-    </LinearLayout>
-
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-        <Button
+        <LinearLayout
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#F0FFF0"
-            android:text="친구추가"
-            android:visibility="visible"/>
-        <Button
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="대화하기"
-            android:visibility="invisible"
-            android:background="#F0FFF0"/>
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#F0FFF0"
+                android:text="친구추가"
+                android:visibility="visible"/>
+            <Button
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대화하기"
+                android:visibility="invisible"
+                android:background="#F0FFF0"/>
+        </LinearLayout>
     </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
 
 </LinearLayout>
